@@ -9,12 +9,36 @@ use DataTypes\FilePath;
 class FakeApplicationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test default constructor of FakeApplication.
+     * Test default constructor.
      */
     public function testDefaultConstructor()
     {
+        $DS = DIRECTORY_SEPARATOR;
         $fakeApplication = new FakeApplication();
 
-        $this->assertSame(FilePath::parse(getcwd() . DIRECTORY_SEPARATOR)->__toString(), $fakeApplication->getDocumentRoot()->__toString());
+        $this->assertSame(FilePath::parse(getcwd() . $DS)->__toString(), $fakeApplication->getDocumentRoot()->__toString());
+    }
+
+    /**
+     * Test constructor with document root.
+     */
+    public function testConstructorWithDocumentRoot()
+    {
+        $DS = DIRECTORY_SEPARATOR;
+        $fakeApplication = new FakeApplication(FilePath::parse($DS . 'var' . $DS . 'www' . $DS));
+
+        $this->assertSame($DS . 'var' . $DS . 'www' . $DS, $fakeApplication->getDocumentRoot()->__toString());
+    }
+
+    /**
+     * Test setDocumentRoot method.
+     */
+    public function testSetDocumentRoot()
+    {
+        $DS = DIRECTORY_SEPARATOR;
+        $fakeApplication = new FakeApplication();
+        $fakeApplication->setDocumentRoot(FilePath::parse($DS . 'var' . $DS . 'www' . $DS));
+
+        $this->assertSame($DS . 'var' . $DS . 'www' . $DS, $fakeApplication->getDocumentRoot()->__toString());
     }
 }
