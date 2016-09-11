@@ -1,2 +1,3 @@
-# bluemvc-fakes
-Fake core classes for the BlueMvc PHP framework
+# BlueMvc Fakes
+
+This project is under construction and is not yet complete. Please check back later.
