@@ -5,5 +5,6 @@
 [![Code Climate](https://codeclimate.com/github/themichaelhall/bluemvc-fakes/badges/gpa.svg)](https://codeclimate.com/github/themichaelhall/bluemvc-fakes)
 [![StyleCI](https://styleci.io/repos/67921953/shield?style=flat)](https://styleci.io/repos/67921953)
 [![Dependency Status](https://www.versioneye.com/user/projects/57d5347c8d1bad004c3daa98/badge.svg?style=flat)](https://www.versioneye.com/user/projects/57d5347c8d1bad004c3daa98)
+[![License](https://poser.pugx.org/bluemvc/bluemvc-fakes/license)](https://packagist.org/packages/bluemvc/bluemvc-fakes)
 
 This project is under construction and is not yet complete. Please check back later.
