@@ -28,5 +28,7 @@
     "psr-4": {
       "BlueMvc\\Fakes\\": "src"
     }
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
