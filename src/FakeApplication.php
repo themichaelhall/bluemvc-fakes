@@ -12,7 +12,7 @@ use DataTypes\Interfaces\FilePathInterface;
 class FakeApplication extends AbstractApplication
 {
     /**
-     * FakeApplication constructor.
+     * Constructs the fake application.
      *
      * @version 1.0.0
      *
