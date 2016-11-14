@@ -7,8 +7,9 @@
 namespace BlueMvc\Fakes;
 
 use BlueMvc\Core\Base\AbstractApplication;
+use BlueMvc\Core\Exceptions\InvalidFilePathException;
+use DataTypes\Exceptions\FilePathInvalidArgumentException;
 use DataTypes\FilePath;
-use DataTypes\Interfaces\FilePathInterface;
 
 /**
  * BlueMvc fake application.
@@ -22,22 +23,27 @@ class FakeApplication extends AbstractApplication
      *
      * @since 1.0.0
      *
-     * @param FilePathInterface|null $documentRoot The document root or null to use the current directory.
+     * @param string|null $documentRoot The document root or null to use the current directory.
+     *
+     * @throws InvalidFilePathException If document root parameter is invalid.
      */
-    public function __construct(FilePathInterface $documentRoot = null)
+    public function __construct($documentRoot = null)
     {
-        parent::__construct($documentRoot !== null ? $documentRoot : FilePath::parse(getcwd() . DIRECTORY_SEPARATOR));
-    }
+        assert(is_string($documentRoot) || is_null($documentRoot));
 
-    /**
-     * Sets the document root.
-     *
-     * @since 1.0.0
-     *
-     * @param FilePathInterface $documentRoot The document root.
-     */
-    public function setDocumentRoot(FilePathInterface $documentRoot)
-    {
-        parent::setDocumentRoot($documentRoot);
+        if ($documentRoot === null) {
+            $documentRoot = getcwd();
+        }
+
+        if (substr($documentRoot, -1) !== DIRECTORY_SEPARATOR) {
+            $documentRoot .= DIRECTORY_SEPARATOR;
+        }
+
+        try {
+            $filePath = FilePath::parse($documentRoot);
+            parent::__construct($filePath);
+        } catch (FilePathInvalidArgumentException $e) {
+            throw new InvalidFilePathException('Document root "' . $documentRoot . '" is not valid: ' . $e->getMessage());
+        }
     }
 }
