@@ -2,6 +2,7 @@
 
 use BlueMvc\Core\Exceptions\InvalidFilePathException;
 use BlueMvc\Fakes\FakeApplication;
+use DataTypes\Exceptions\FilePathInvalidArgumentException;
 use DataTypes\FilePath;
 
 /**
@@ -69,10 +70,21 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
 
         try {
             new FakeApplication($DS . 'var' . $DS . "\0" . 'www');
-        } catch (InvalidFilePathException $e) {
+        } catch (FilePathInvalidArgumentException $e) {
             $exceptionMessage = $e->getMessage();
         }
 
-        $this->assertSame('Document root "' . $DS . 'var' . $DS . "\0" . 'www' . $DS . '" is not valid: File path "' . $DS . 'var' . $DS . "\0" . 'www' . $DS . '" is invalid: Part of directory "' . "\0" . 'www" contains invalid character "' . "\0" . '".', $exceptionMessage);
+        $this->assertSame('File path "' . $DS . 'var' . $DS . "\0" . 'www' . $DS . '" is invalid: Part of directory "' . "\0" . 'www" contains invalid character "' . "\0" . '".', $exceptionMessage);
+    }
+
+    /**
+     * Test constructor with invalid document root parameter type.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage $documentRoot parameter is not a string or null.
+     */
+    public function testConstructorWithInvalidDocumentRootParameterType()
+    {
+        new FakeApplication(true);
     }
 }

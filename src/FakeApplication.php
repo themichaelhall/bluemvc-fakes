@@ -25,11 +25,15 @@ class FakeApplication extends AbstractApplication
      *
      * @param string|null $documentRoot The document root or null to use the current directory.
      *
-     * @throws InvalidFilePathException If document root parameter is invalid.
+     * @throws FilePathInvalidArgumentException If the document root parameter is not a valid file path.
+     * @throws \InvalidArgumentException        If the document root parameter is not a string or null.
+     * @throws InvalidFilePathException         If the document root parameter is invalid.
      */
     public function __construct($documentRoot = null)
     {
-        assert(is_string($documentRoot) || is_null($documentRoot));
+        if (!is_string($documentRoot) && !(is_null($documentRoot))) {
+            throw new \InvalidArgumentException('$documentRoot parameter is not a string or null.');
+        }
 
         if ($documentRoot === null) {
             $documentRoot = getcwd();
@@ -39,11 +43,6 @@ class FakeApplication extends AbstractApplication
             $documentRoot .= DIRECTORY_SEPARATOR;
         }
 
-        try {
-            $filePath = FilePath::parse($documentRoot);
-            parent::__construct($filePath);
-        } catch (FilePathInvalidArgumentException $e) {
-            throw new InvalidFilePathException('Document root "' . $documentRoot . '" is not valid: ' . $e->getMessage());
-        }
+        parent::__construct(FilePath::parse($documentRoot));
     }
 }
