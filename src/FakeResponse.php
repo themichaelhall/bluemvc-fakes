@@ -4,7 +4,6 @@
  *
  * Read more at https://bluemvc.com/
  */
-
 namespace BlueMvc\Fakes;
 
 use BlueMvc\Core\Base\AbstractResponse;
