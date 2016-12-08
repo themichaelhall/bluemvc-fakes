@@ -42,6 +42,20 @@ class RoutingTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test get action result page.
+     */
+    public function testGetActionResultPage()
+    {
+        $request = new FakeRequest('http://localhost/actionResult');
+        $response = new FakeResponse($request);
+        $this->application->run($request, $response);
+
+        $this->assertSame('', $response->getContent());
+        $this->assertSame(StatusCode::MOVED_PERMANENTLY, $response->getStatusCode()->getCode());
+        $this->assertSame('https://localhost/', $response->getHeader('Location'));
+    }
+
+    /**
      * Set up.
      */
     public function setUp()

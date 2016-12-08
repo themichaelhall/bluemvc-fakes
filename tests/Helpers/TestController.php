@@ -1,5 +1,6 @@
 <?php
 
+use BlueMvc\Core\ActionResults\PermanentRedirectResult;
 use BlueMvc\Core\Controller;
 use BlueMvc\Core\View;
 
@@ -28,5 +29,15 @@ class TestController extends Controller
         $this->setViewData('Foo', 'Bar');
 
         return new View('Baz');
+    }
+
+    /**
+     * Action result action.
+     *
+     * @return PermanentRedirectResult The result.
+     */
+    public function actionResultAction()
+    {
+        return new PermanentRedirectResult('https://localhost/');
     }
 }
