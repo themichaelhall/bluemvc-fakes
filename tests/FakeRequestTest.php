@@ -72,4 +72,14 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
     {
         new FakeRequest('http://localhost/foo/bar', false);
     }
+
+    /**
+     * Test getHeaders method.
+     */
+    public function testGetHeaders()
+    {
+        $fakeRequest = new FakeRequest('http://localhost:81/foo/bar');
+
+        $this->assertSame(['Host' => 'localhost:81'], iterator_to_array($fakeRequest->getHeaders()));
+    }
 }

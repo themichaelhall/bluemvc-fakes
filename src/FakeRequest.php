@@ -8,9 +8,12 @@
 namespace BlueMvc\Fakes;
 
 use BlueMvc\Core\Base\AbstractRequest;
+use BlueMvc\Core\Collections\HeaderCollection;
 use BlueMvc\Core\Exceptions\Http\InvalidMethodNameException;
 use BlueMvc\Core\Http\Method;
+use BlueMvc\Core\Interfaces\Collections\HeaderCollectionInterface;
 use DataTypes\Exceptions\UrlInvalidArgumentException;
+use DataTypes\Interfaces\UrlInterface;
 use DataTypes\Url;
 
 /**
@@ -43,5 +46,22 @@ class FakeRequest extends AbstractRequest
         }
 
         parent::__construct(Url::parse($url), new Method($method));
+
+        $this->setHeaders(self::myParseHeaders($this->getUrl()));
+    }
+
+    /**
+     * Parses a url into a header collection.
+     *
+     * @param UrlInterface $url The url.
+     *
+     * @return HeaderCollectionInterface The header collection.
+     */
+    private static function myParseHeaders(UrlInterface $url)
+    {
+        $result = new HeaderCollection();
+        $result->set('Host', $url->getHostAndPort());
+
+        return $result;
     }
 }
