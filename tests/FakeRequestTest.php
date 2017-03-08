@@ -8,13 +8,35 @@ use BlueMvc\Fakes\FakeRequest;
 class FakeRequestTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Test empty constructor.
+     */
+    public function testEmptyConstructor()
+    {
+        $fakeRequest = new FakeRequest();
+
+        $this->assertSame('http://localhost/', $fakeRequest->getUrl()->__toString());
+        $this->assertSame('GET', $fakeRequest->getMethod()->__toString());
+    }
+
+    /**
      * Test default constructor.
      */
     public function testDefaultConstructor()
     {
-        $fakeRequest = new FakeRequest('http://localhost/foo/bar');
+        $fakeRequest = new FakeRequest('http://domain.com/foo/bar');
 
-        $this->assertSame('http://localhost/foo/bar', $fakeRequest->getUrl()->__toString());
+        $this->assertSame('http://domain.com/foo/bar', $fakeRequest->getUrl()->__toString());
+        $this->assertSame('GET', $fakeRequest->getMethod()->__toString());
+    }
+
+    /**
+     * Test default constructor with relative path.
+     */
+    public function testDefaultConstructorWithRelativePath()
+    {
+        $fakeRequest = new FakeRequest('/bar/baz');
+
+        $this->assertSame('http://localhost/bar/baz', $fakeRequest->getUrl()->__toString());
         $this->assertSame('GET', $fakeRequest->getMethod()->__toString());
     }
 
@@ -32,12 +54,12 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
     /**
      * Test constructor with invalid url.
      *
-     * @expectedException \DataTypes\Exceptions\UrlInvalidArgumentException
-     * @expectedExceptionMessage Url "FooBar" is invalid: Scheme is missing.
+     * @expectedException \DataTypes\Exceptions\UrlPathLogicException
+     * @expectedExceptionMessage Url path "/" can not be combined with url path "../foo": Absolute path is above root level.
      */
     public function testConstructorWithInvalidUrl()
     {
-        new FakeRequest('FooBar');
+        new FakeRequest('../foo');
     }
 
     /**

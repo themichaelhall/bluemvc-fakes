@@ -35,7 +35,7 @@ class FakeRequest extends AbstractRequest
      * @throws InvalidMethodNameException  If the method parameter is not a valid method.
      * @throws UrlInvalidArgumentException If the url parameter is not a valid Url.
      */
-    public function __construct($url, $method = 'GET')
+    public function __construct($url = '/', $method = 'GET')
     {
         if (!is_string($url)) {
             throw new \InvalidArgumentException('$url parameter is not a string.');
@@ -45,7 +45,7 @@ class FakeRequest extends AbstractRequest
             throw new \InvalidArgumentException('$method parameter is not a string.');
         }
 
-        parent::__construct(Url::parse($url), new Method($method));
+        parent::__construct(Url::parseRelative($url, Url::parse('http://localhost/')), new Method($method));
 
         $this->setHeaders(self::myParseHeaders($this->getUrl()));
     }
