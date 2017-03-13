@@ -51,6 +51,19 @@ class FakeRequest extends AbstractRequest
     }
 
     /**
+     * Sets a header.
+     *
+     * @since 1.0.0
+     *
+     * @param string $name  The name.
+     * @param string $value The value.
+     */
+    public function setHeader($name, $value)
+    {
+        parent::setHeader($name, $value);
+    }
+
+    /**
      * Parses a url into a header collection.
      *
      * @param UrlInterface $url The url.
