@@ -51,6 +51,19 @@ class FakeRequest extends AbstractRequest
     }
 
     /**
+     * Adds a header.
+     *
+     * @since 1.0.0
+     *
+     * @param string $name  The name.
+     * @param string $value The value.
+     */
+    public function addHeader($name, $value)
+    {
+        parent::addHeader($name, $value);
+    }
+
+    /**
      * Sets a header.
      *
      * @since 1.0.0
