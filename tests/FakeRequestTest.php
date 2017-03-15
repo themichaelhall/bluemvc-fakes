@@ -128,4 +128,15 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(['Host' => 'localhost:81', 'Accept-Language' => 'sv, en'], iterator_to_array($fakeRequest->getHeaders()));
     }
+
+    /**
+     * Test getHeader method.
+     */
+    public function testGetHeader()
+    {
+        $fakeRequest = new FakeRequest('http://localhost:81/foo/bar');
+
+        $this->assertSame('localhost:81', $fakeRequest->getHeader('Host'));
+        $this->assertNull($fakeRequest->getHeader('Accept-Language'));
+    }
 }
