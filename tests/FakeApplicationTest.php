@@ -194,4 +194,14 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
         $this->assertSame(1, count($viewRenderers));
         $this->assertInstanceOf(TestViewRenderer::class, $viewRenderers[0]);
     }
+
+    /**
+     * Test isDebug method.
+     */
+    public function testIsDebug()
+    {
+        $fakeApplication = new FakeApplication();
+
+        $this->assertFalse($fakeApplication->isDebug());
+    }
 }
