@@ -46,4 +46,16 @@ class FakeApplication extends AbstractApplication
 
         parent::__construct(FilePath::parse($documentRoot));
     }
+
+    /**
+     * Sets the debug mode.
+     *
+     * @since 1.0.0
+     *
+     * @param bool $isDebug The debug mode.
+     */
+    public function setDebug($isDebug)
+    {
+        parent::setDebug($isDebug);
+    }
 }

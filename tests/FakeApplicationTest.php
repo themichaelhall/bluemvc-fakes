@@ -204,4 +204,15 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
 
         $this->assertFalse($fakeApplication->isDebug());
     }
+
+    /**
+     * Test setDebug method.
+     */
+    public function testSetDebug()
+    {
+        $fakeApplication = new FakeApplication();
+        $fakeApplication->setDebug(true);
+
+        $this->assertTrue($fakeApplication->isDebug());
+    }
 }
