@@ -139,4 +139,25 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
         $this->assertSame('localhost:81', $fakeRequest->getHeader('Host'));
         $this->assertNull($fakeRequest->getHeader('Accept-Language'));
     }
+
+    /**
+     * Test getUserAgent method without user agent set.
+     */
+    public function testGetUserAgentWithoutUserAgentSet()
+    {
+        $fakeRequest = new FakeRequest();
+
+        $this->assertSame('', $fakeRequest->getUserAgent());
+    }
+
+    /**
+     * Test getUserAgent method with user agent set.
+     */
+    public function testGetUserAgentWithUserAgentSet()
+    {
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setHeader('User-Agent', 'FakeUserAgent/1.0');
+
+        $this->assertSame('FakeUserAgent/1.0', $fakeRequest->getUserAgent());
+    }
 }
