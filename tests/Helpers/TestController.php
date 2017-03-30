@@ -40,4 +40,20 @@ class TestController extends Controller
     {
         return new PermanentRedirectResult('https://localhost/');
     }
+
+    /**
+     * Pre-action event.
+     *
+     * @return string|null The result.
+     */
+    protected function onPreActionEvent()
+    {
+        parent::onPreActionEvent();
+
+        if ($this->getRequest()->getHeader('X-Trigger-PreActionEvent') !== null) {
+            return 'Pre-action event triggered.';
+        }
+
+        return null;
+    }
 }

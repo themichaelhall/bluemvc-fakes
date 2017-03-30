@@ -56,6 +56,20 @@ class RoutingTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test pre action event.
+     */
+    public function testPreActionEvent()
+    {
+        $request = new FakeRequest('http://localhost/');
+        $request->setHeader('X-Trigger-PreActionEvent', 'Yes');
+        $response = new FakeResponse($request);
+        $this->application->run($request, $response);
+
+        $this->assertSame('Pre-action event triggered.', $response->getContent());
+        $this->assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+    }
+
+    /**
      * Set up.
      */
     public function setUp()
