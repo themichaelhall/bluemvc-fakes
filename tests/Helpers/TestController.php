@@ -1,5 +1,6 @@
 <?php
 
+use BlueMvc\Core\ActionResults\ForbiddenResult;
 use BlueMvc\Core\ActionResults\PermanentRedirectResult;
 use BlueMvc\Core\Controller;
 use BlueMvc\Core\View;
@@ -52,6 +53,22 @@ class TestController extends Controller
 
         if ($this->getRequest()->getHeader('X-Trigger-PreActionEvent') !== null) {
             return 'Pre-action event triggered.';
+        }
+
+        return null;
+    }
+
+    /**
+     * Post-action event.
+     *
+     * @return ForbiddenResult|null The result.
+     */
+    protected function onPostActionEvent()
+    {
+        parent::onPostActionEvent();
+
+        if ($this->getRequest()->getHeader('X-Trigger-PostActionEvent') !== null) {
+            return new ForbiddenResult('Post-action event triggered.');
         }
 
         return null;

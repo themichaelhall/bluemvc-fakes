@@ -56,7 +56,7 @@ class RoutingTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test pre action event.
+     * Test pre-action event.
      */
     public function testPreActionEvent()
     {
@@ -67,6 +67,20 @@ class RoutingTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame('Pre-action event triggered.', $response->getContent());
         $this->assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+    }
+
+    /**
+     * Test post-action event.
+     */
+    public function testPostActionEvent()
+    {
+        $request = new FakeRequest('http://localhost/');
+        $request->setHeader('X-Trigger-PostActionEvent', 'Yes');
+        $response = new FakeResponse($request);
+        $this->application->run($request, $response);
+
+        $this->assertSame('Post-action event triggered.', $response->getContent());
+        $this->assertSame(StatusCode::FORBIDDEN, $response->getStatusCode()->getCode());
     }
 
     /**
