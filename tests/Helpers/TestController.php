@@ -43,6 +43,16 @@ class TestController extends Controller
     }
 
     /**
+     * Action throwing exception.
+     *
+     * @throws \DomainException The exception.
+     */
+    public function exceptionAction()
+    {
+        throw new \DomainException('Throwing exception!');
+    }
+
+    /**
      * Pre-action event.
      *
      * @return string|null The result.

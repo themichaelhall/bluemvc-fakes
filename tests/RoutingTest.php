@@ -84,6 +84,34 @@ class RoutingTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test failure with exception for non-debug application.
+     */
+    public function testExceptionForNonDebugApplication()
+    {
+        $request = new FakeRequest('http://localhost/exception');
+        $response = new FakeResponse($request);
+        $this->application->run($request, $response);
+
+        $this->assertSame('', $response->getContent());
+        $this->assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
+    }
+
+    /**
+     * Test failure with exception for debug application.
+     */
+    public function testExceptionForDebugApplication()
+    {
+        $this->application->setDebug(true);
+        $request = new FakeRequest('http://localhost/exception');
+        $response = new FakeResponse($request);
+        $this->application->run($request, $response);
+
+        $this->assertContains('<h1>Throwing exception!</h1>', $response->getContent());
+        $this->assertContains('<code>DomainException</code>', $response->getContent());
+        $this->assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
+    }
+
+    /**
      * Set up.
      */
     public function setUp()
