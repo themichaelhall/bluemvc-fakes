@@ -215,4 +215,14 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($fakeApplication->isDebug());
     }
+
+    /**
+     * Test getErrorControllerClass method.
+     */
+    public function testGetErrorControllerClass()
+    {
+        $fakeApplication = new FakeApplication();
+
+        $this->assertNull($fakeApplication->getErrorControllerClass());
+    }
 }
