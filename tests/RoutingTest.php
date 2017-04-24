@@ -112,6 +112,20 @@ class RoutingTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test request using error controller.
+     */
+    public function testErrorController()
+    {
+        $this->application->setErrorControllerClass(TestErrorController::class);
+        $request = new FakeRequest('http://localhost/exception');
+        $response = new FakeResponse($request);
+        $this->application->run($request, $response);
+
+        $this->assertSame('StatusCode=500', $response->getContent());
+        $this->assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
+    }
+
+    /**
      * Set up.
      */
     public function setUp()
