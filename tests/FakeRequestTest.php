@@ -1,5 +1,6 @@
 <?php
 
+use BlueMvc\Core\Collections\ParameterCollection;
 use BlueMvc\Fakes\FakeRequest;
 
 /**
@@ -169,5 +170,18 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
         $fakeRequest = new FakeRequest();
 
         $this->assertSame([], iterator_to_array($fakeRequest->getFormParameters()));
+    }
+
+    /**
+     * Test setFormParameters method.
+     */
+    public function testSetFormParameters()
+    {
+        $fakeRequest = new FakeRequest();
+        $formParameters = new ParameterCollection();
+        $formParameters->set('Foo', 'Bar');
+        $fakeRequest->setFormParameters($formParameters);
+
+        $this->assertSame(['Foo' => 'Bar'], iterator_to_array($fakeRequest->getFormParameters()));
     }
 }

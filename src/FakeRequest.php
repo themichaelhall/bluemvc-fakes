@@ -12,6 +12,7 @@ use BlueMvc\Core\Collections\HeaderCollection;
 use BlueMvc\Core\Exceptions\Http\InvalidMethodNameException;
 use BlueMvc\Core\Http\Method;
 use BlueMvc\Core\Interfaces\Collections\HeaderCollectionInterface;
+use BlueMvc\Core\Interfaces\Collections\ParameterCollectionInterface;
 use DataTypes\Exceptions\UrlInvalidArgumentException;
 use DataTypes\Interfaces\UrlInterface;
 use DataTypes\Url;
@@ -61,6 +62,18 @@ class FakeRequest extends AbstractRequest
     public function addHeader($name, $value)
     {
         parent::addHeader($name, $value);
+    }
+
+    /**
+     * Sets the form parameters.
+     *
+     * @since 1.0.0
+     *
+     * @param ParameterCollectionInterface $parameters The form parameters.
+     */
+    public function setFormParameters(ParameterCollectionInterface $parameters)
+    {
+        parent::setFormParameters($parameters);
     }
 
     /**
