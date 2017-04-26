@@ -160,4 +160,14 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame('FakeUserAgent/1.0', $fakeRequest->getUserAgent());
     }
+
+    /**
+     * Test getFormParameters method.
+     */
+    public function testGetFormParameters()
+    {
+        $fakeRequest = new FakeRequest();
+
+        $this->assertSame([], iterator_to_array($fakeRequest->getFormParameters()));
+    }
 }
