@@ -65,6 +65,21 @@ class FakeRequest extends AbstractRequest
     }
 
     /**
+     * Sets a form parameter.
+     *
+     * @since 1.0.0
+     *
+     * @param string $name  The form parameter name.
+     * @param string $value The form parameter value.
+     *
+     * @throws \InvalidArgumentException If any of the parameters are of invalid type.
+     */
+    public function setFormParameter($name, $value)
+    {
+        parent::setFormParameter($name, $value);
+    }
+
+    /**
      * Sets the form parameters.
      *
      * @since 1.0.0

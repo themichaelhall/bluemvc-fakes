@@ -198,4 +198,15 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
         $this->assertSame('Bar', $fakeRequest->getFormParameter('Foo'));
         $this->assertNull($fakeRequest->getFormParameter('Bar'));
     }
+
+    /**
+     * Test setFormParameter method.
+     */
+    public function testSetFormParameter()
+    {
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setFormParameter('Foo', 'Bar');
+
+        $this->assertSame(['Foo' => 'Bar'], iterator_to_array($fakeRequest->getFormParameters()));
+    }
 }
