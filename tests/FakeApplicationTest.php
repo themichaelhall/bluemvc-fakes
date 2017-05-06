@@ -1,19 +1,21 @@
 <?php
 
+namespace BlueMvc\Fakes\Tests;
+
 use BlueMvc\Core\Exceptions\InvalidFilePathException;
 use BlueMvc\Core\Route;
 use BlueMvc\Fakes\FakeApplication;
+use BlueMvc\Fakes\Tests\Helpers\TestViewRenderer;
 use DataTypes\Exceptions\FilePathInvalidArgumentException;
 use DataTypes\FilePath;
 
 require_once __DIR__ . '/Helpers/TestController.php';
 require_once __DIR__ . '/Helpers/TestErrorController.php';
-require_once __DIR__ . '/Helpers/TestViewRenderer.php';
 
 /**
  * Test FakeApplication class.
  */
-class FakeApplicationTest extends PHPUnit_Framework_TestCase
+class FakeApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test default constructor.
@@ -23,7 +25,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
         $DS = DIRECTORY_SEPARATOR;
         $fakeApplication = new FakeApplication();
 
-        $this->assertSame(FilePath::parse(getcwd() . $DS)->__toString(), $fakeApplication->getDocumentRoot()->__toString());
+        self::assertSame(FilePath::parse(getcwd() . $DS)->__toString(), $fakeApplication->getDocumentRoot()->__toString());
     }
 
     /**
@@ -34,7 +36,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
         $DS = DIRECTORY_SEPARATOR;
         $fakeApplication = new FakeApplication($DS . 'var' . $DS . 'www' . $DS);
 
-        $this->assertSame($DS . 'var' . $DS . 'www' . $DS, $fakeApplication->getDocumentRoot()->__toString());
+        self::assertSame($DS . 'var' . $DS . 'www' . $DS, $fakeApplication->getDocumentRoot()->__toString());
     }
 
     /**
@@ -45,7 +47,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
         $DS = DIRECTORY_SEPARATOR;
         $fakeApplication = new FakeApplication($DS . 'var' . $DS . 'www');
 
-        $this->assertSame($DS . 'var' . $DS . 'www' . $DS, $fakeApplication->getDocumentRoot()->__toString());
+        self::assertSame($DS . 'var' . $DS . 'www' . $DS, $fakeApplication->getDocumentRoot()->__toString());
     }
 
     /**
@@ -62,7 +64,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
             $exceptionMessage = $e->getMessage();
         }
 
-        $this->assertSame('Document root "var' . $DS . 'www' . $DS . '" is not an absolute path.', $exceptionMessage);
+        self::assertSame('Document root "var' . $DS . 'www' . $DS . '" is not an absolute path.', $exceptionMessage);
     }
 
     /**
@@ -79,7 +81,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
             $exceptionMessage = $e->getMessage();
         }
 
-        $this->assertSame('File path "' . $DS . 'var' . $DS . "\0" . 'www' . $DS . '" is invalid: Part of directory "' . "\0" . 'www" contains invalid character "' . "\0" . '".', $exceptionMessage);
+        self::assertSame('File path "' . $DS . 'var' . $DS . "\0" . 'www' . $DS . '" is invalid: Part of directory "' . "\0" . 'www" contains invalid character "' . "\0" . '".', $exceptionMessage);
     }
 
     /**
@@ -101,7 +103,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
         $DS = DIRECTORY_SEPARATOR;
         $fakeApplication = new FakeApplication($DS . 'var' . $DS . 'www' . $DS);
 
-        $this->assertSame($DS . 'var' . $DS . 'www' . $DS, $fakeApplication->getDocumentRoot()->__toString());
+        self::assertSame($DS . 'var' . $DS . 'www' . $DS, $fakeApplication->getDocumentRoot()->__toString());
     }
 
     /**
@@ -112,7 +114,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
         $fakeApplication = new FakeApplication();
         $routes = $fakeApplication->getRoutes();
 
-        $this->assertSame(0, count($routes));
+        self::assertSame(0, count($routes));
     }
 
     /**
@@ -121,10 +123,10 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
     public function testAddRoute()
     {
         $fakeApplication = new FakeApplication();
-        $fakeApplication->addRoute(new Route('', TestController::class));
+        $fakeApplication->addRoute(new Route('', \TestController::class));
         $routes = $fakeApplication->getRoutes();
 
-        $this->assertSame(1, count($routes));
+        self::assertSame(1, count($routes));
     }
 
     /**
@@ -135,7 +137,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
         $DS = DIRECTORY_SEPARATOR;
         $fakeApplication = new FakeApplication($DS . 'var' . $DS . 'www' . $DS);
 
-        $this->assertSame($DS . 'var' . $DS . 'www' . $DS, $fakeApplication->getViewPath()->__toString());
+        self::assertSame($DS . 'var' . $DS . 'www' . $DS, $fakeApplication->getViewPath()->__toString());
     }
 
     /**
@@ -147,7 +149,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
         $fakeApplication = new FakeApplication($DS . 'var' . $DS . 'www' . $DS);
         $fakeApplication->setViewPath(FilePath::parse('views/'));
 
-        $this->assertSame($DS . 'var' . $DS . 'www' . $DS . 'views' . $DS, $fakeApplication->getViewPath()->__toString());
+        self::assertSame($DS . 'var' . $DS . 'www' . $DS . 'views' . $DS, $fakeApplication->getViewPath()->__toString());
     }
 
     /**
@@ -158,7 +160,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
         $DS = DIRECTORY_SEPARATOR;
         $fakeApplication = new FakeApplication();
 
-        $this->assertSame(sys_get_temp_dir() . $DS . 'bluemvc' . $DS . sha1($fakeApplication->getDocumentRoot()->__toString()) . $DS, $fakeApplication->getTempPath()->__toString());
+        self::assertSame(sys_get_temp_dir() . $DS . 'bluemvc' . $DS . sha1($fakeApplication->getDocumentRoot()->__toString()) . $DS, $fakeApplication->getTempPath()->__toString());
     }
 
     /**
@@ -170,7 +172,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
         $fakeApplication = new FakeApplication($DS . 'var' . $DS . 'www' . $DS);
         $fakeApplication->setTempPath(FilePath::parse('temp/'));
 
-        $this->assertSame($DS . 'var' . $DS . 'www' . $DS . 'temp' . $DS, $fakeApplication->getTempPath()->__toString());
+        self::assertSame($DS . 'var' . $DS . 'www' . $DS . 'temp' . $DS, $fakeApplication->getTempPath()->__toString());
     }
 
     /**
@@ -180,7 +182,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
     {
         $fakeApplication = new FakeApplication();
 
-        $this->assertSame(0, count($fakeApplication->getViewRenderers()));
+        self::assertSame(0, count($fakeApplication->getViewRenderers()));
     }
 
     /**
@@ -192,8 +194,8 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
         $fakeApplication->addViewRenderer(new TestViewRenderer());
         $viewRenderers = $fakeApplication->getViewRenderers();
 
-        $this->assertSame(1, count($viewRenderers));
-        $this->assertInstanceOf(TestViewRenderer::class, $viewRenderers[0]);
+        self::assertSame(1, count($viewRenderers));
+        self::assertInstanceOf(TestViewRenderer::class, $viewRenderers[0]);
     }
 
     /**
@@ -203,7 +205,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
     {
         $fakeApplication = new FakeApplication();
 
-        $this->assertFalse($fakeApplication->isDebug());
+        self::assertFalse($fakeApplication->isDebug());
     }
 
     /**
@@ -214,7 +216,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
         $fakeApplication = new FakeApplication();
         $fakeApplication->setDebug(true);
 
-        $this->assertTrue($fakeApplication->isDebug());
+        self::assertTrue($fakeApplication->isDebug());
     }
 
     /**
@@ -224,7 +226,7 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
     {
         $fakeApplication = new FakeApplication();
 
-        $this->assertNull($fakeApplication->getErrorControllerClass());
+        self::assertNull($fakeApplication->getErrorControllerClass());
     }
 
     /**
@@ -233,9 +235,9 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
     public function testSetErrorControllerClass()
     {
         $fakeApplication = new FakeApplication();
-        $fakeApplication->setErrorControllerClass(TestErrorController::class);
+        $fakeApplication->setErrorControllerClass(\TestErrorController::class);
 
-        $this->assertSame(TestErrorController::class, $fakeApplication->getErrorControllerClass());
+        self::assertSame(\TestErrorController::class, $fakeApplication->getErrorControllerClass());
     }
 
     /**
@@ -247,25 +249,26 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
     public function testSetErrorControllerClassWithInvalidParameterType()
     {
         $fakeApplication = new FakeApplication();
+        /** @noinspection PhpParamsInspection */
         $fakeApplication->setErrorControllerClass([]);
     }
 
     /**
      * Test setErrorControllerClass method with non-existing class name.
      *
-     * @expectedException BlueMvc\Core\Exceptions\InvalidControllerClassException
-     * @expectedExceptionMessage "BlueMvc\Fakes\Foo" is not a valid error controller class.
+     * @expectedException \BlueMvc\Core\Exceptions\InvalidControllerClassException
+     * @expectedExceptionMessage "\BlueMvc\Fakes\Foo" is not a valid error controller class.
      */
     public function testSetErrorControllerClassWithNonExistingClassName()
     {
         $fakeApplication = new FakeApplication();
-        $fakeApplication->setErrorControllerClass('BlueMvc\\Fakes\\Foo');
+        $fakeApplication->setErrorControllerClass('\\BlueMvc\\Fakes\\Foo');
     }
 
     /**
      * Test setErrorControllerClass method with non-controller class name.
      *
-     * @expectedException BlueMvc\Core\Exceptions\InvalidControllerClassException
+     * @expectedException \BlueMvc\Core\Exceptions\InvalidControllerClassException
      * @expectedExceptionMessage "BlueMvc\Fakes\FakeApplication" is not a valid error controller class.
      */
     public function testSetErrorControllerWithNonControllerClassName()
@@ -277,12 +280,12 @@ class FakeApplicationTest extends PHPUnit_Framework_TestCase
     /**
      * Test setErrorControllerClass method with ordinary controller class name.
      *
-     * @expectedException BlueMvc\Core\Exceptions\InvalidControllerClassException
+     * @expectedException \BlueMvc\Core\Exceptions\InvalidControllerClassException
      * @expectedExceptionMessage "TestController" is not a valid error controller class.
      */
     public function testSetErrorControllerWithOrdinaryControllerClassName()
     {
         $fakeApplication = new FakeApplication();
-        $fakeApplication->setErrorControllerClass(TestController::class);
+        $fakeApplication->setErrorControllerClass(\TestController::class);
     }
 }

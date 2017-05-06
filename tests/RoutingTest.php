@@ -5,10 +5,10 @@ use BlueMvc\Core\Route;
 use BlueMvc\Fakes\FakeApplication;
 use BlueMvc\Fakes\FakeRequest;
 use BlueMvc\Fakes\FakeResponse;
+use BlueMvc\Fakes\Tests\Helpers\TestViewRenderer;
 use DataTypes\FilePath;
 
 require_once __DIR__ . '/Helpers/TestController.php';
-require_once __DIR__ . '/Helpers/TestViewRenderer.php';
 
 /**
  * Test basic routing using FakeApplication class.
@@ -37,7 +37,7 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $response = new FakeResponse($request);
         $this->application->run($request, $response);
 
-        $this->assertSame('ViewData=Bar, Model=Baz', $response->getContent());
+        $this->assertSame('ViewData=Bar, Model=Baz, Url=http://localhost/view, TempDir=' . $this->application->getTempPath(), $response->getContent());
         $this->assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
     }
 

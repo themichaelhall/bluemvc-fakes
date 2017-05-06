@@ -1,1 +1,1 @@
-ViewData={VIEWDATA}, Model={MODEL}
+ViewData={VIEWDATA}, Model={MODEL}, Url={URL}, TempDir={TEMPDIR}

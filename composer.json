@@ -29,6 +29,11 @@
       "BlueMvc\\Fakes\\": "src"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "BlueMvc\\Fakes\\Tests\\": "tests"
+    }
+  },
   "minimum-stability": "dev",
   "prefer-stable": true
 }
