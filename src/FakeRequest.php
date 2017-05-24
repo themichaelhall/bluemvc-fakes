@@ -9,6 +9,7 @@ namespace BlueMvc\Fakes;
 
 use BlueMvc\Core\Base\AbstractRequest;
 use BlueMvc\Core\Collections\HeaderCollection;
+use BlueMvc\Core\Collections\ParameterCollection;
 use BlueMvc\Core\Exceptions\Http\InvalidMethodNameException;
 use BlueMvc\Core\Http\Method;
 use BlueMvc\Core\Interfaces\Collections\HeaderCollectionInterface;
@@ -49,6 +50,7 @@ class FakeRequest extends AbstractRequest
         parent::__construct(Url::parseRelative($url, Url::parse('http://localhost/')), new Method($method));
 
         $this->setHeaders(self::myParseHeaders($this->getUrl()));
+        $this->setQueryParameters(self::myParseQueryParameters($this->getUrl()->getQueryString()));
     }
 
     /**
@@ -117,5 +119,28 @@ class FakeRequest extends AbstractRequest
         $result->set('Host', $url->getHostAndPort());
 
         return $result;
+    }
+
+    /**
+     * Parses a query string into a parameter collection.
+     *
+     * @param string|null $queryString The query string or null if no query string is set.
+     *
+     * @return ParameterCollectionInterface The parameter collection.
+     */
+    private static function myParseQueryParameters($queryString)
+    {
+        $parameters = new ParameterCollection();
+
+        if ($queryString === null) {
+            return $parameters;
+        }
+
+        parse_str($queryString, $parametersArray);
+        foreach ($parametersArray as $parameterName => $parameterValue) {
+            $parameters->set($parameterName, is_array($parameterValue) ? $parameterValue[0] : $parameterValue);
+        }
+
+        return $parameters;
     }
 }

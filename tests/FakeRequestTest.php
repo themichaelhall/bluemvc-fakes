@@ -209,4 +209,36 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(['Foo' => 'Bar'], iterator_to_array($fakeRequest->getFormParameters()));
     }
+
+    /**
+     * Test getQueryParameters method without query parameters set.
+     */
+    public function testGetQueryParametersWithoutQueryParametersSet()
+    {
+        $fakeRequest = new FakeRequest();
+
+        $this->assertSame([], iterator_to_array($fakeRequest->getQueryParameters()));
+    }
+
+    /**
+     * Test getQueryParameters method with query parameters set.
+     */
+    public function testGetQueryParametersWithQueryParametersSet()
+    {
+        $fakeRequest = new FakeRequest('http://localhost/?foo=1&bar[]=2&bar[]=3');
+
+        $this->assertSame(['foo' => '1', 'bar' => '2'], iterator_to_array($fakeRequest->getQueryParameters()));
+    }
+
+    /**
+     * Test getQueryParameter method.
+     */
+    public function testGetQueryParameter()
+    {
+        $fakeRequest = new FakeRequest('http://localhost/?foo=1&bar=2&bar=3');
+
+        $this->assertSame('1', $fakeRequest->getQueryParameter('foo'));
+        $this->assertSame('3', $fakeRequest->getQueryParameter('bar'));
+        $this->assertNull($fakeRequest->getQueryParameter('baz'));
+    }
 }
