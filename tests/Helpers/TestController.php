@@ -33,6 +33,18 @@ class TestController extends Controller
     }
 
     /**
+     * Custom view action.
+     *
+     * @return View The result.
+     */
+    public function customViewAction()
+    {
+        $this->setViewData('Foo', 'Bar');
+
+        return new View('Baz', 'custom');
+    }
+
+    /**
      * Action result action.
      *
      * @return PermanentRedirectResult The result.

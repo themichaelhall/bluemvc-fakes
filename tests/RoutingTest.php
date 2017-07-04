@@ -42,6 +42,19 @@ class RoutingTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test get custom view page.
+     */
+    public function testGetCustomViewPage()
+    {
+        $request = new FakeRequest('http://localhost/customView');
+        $response = new FakeResponse($request);
+        $this->application->run($request, $response);
+
+        $this->assertSame('Custom view, ViewData=Bar, Model=Baz, Url=http://localhost/customView, TempDir=' . $this->application->getTempPath(), $response->getContent());
+        $this->assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+    }
+
+    /**
      * Test get action result page.
      */
     public function testGetActionResultPage()
