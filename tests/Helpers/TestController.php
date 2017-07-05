@@ -1,6 +1,7 @@
 <?php
 
 use BlueMvc\Core\ActionResults\ForbiddenResult;
+use BlueMvc\Core\ActionResults\JsonResult;
 use BlueMvc\Core\ActionResults\PermanentRedirectResult;
 use BlueMvc\Core\Controller;
 use BlueMvc\Core\View;
@@ -52,6 +53,16 @@ class TestController extends Controller
     public function actionResultAction()
     {
         return new PermanentRedirectResult('https://localhost/');
+    }
+
+    /**
+     * Json result action.
+     *
+     * @return JsonResult The result.
+     */
+    public function jsonResultAction()
+    {
+        return new JsonResult(['Foo' => 'Bar']);
     }
 
     /**

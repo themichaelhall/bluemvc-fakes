@@ -69,6 +69,20 @@ class RoutingTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test get json result page.
+     */
+    public function testGetJsonResultPage()
+    {
+        $request = new FakeRequest('http://localhost/jsonResult');
+        $response = new FakeResponse($request);
+        $this->application->run($request, $response);
+
+        $this->assertSame('{"Foo":"Bar"}', $response->getContent());
+        $this->assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        $this->assertSame('application/json', $response->getHeader('Content-Type'));
+    }
+
+    /**
      * Test pre-action event.
      */
     public function testPreActionEvent()
