@@ -28,7 +28,7 @@ class TestController extends Controller
      */
     public function viewAction()
     {
-        $this->setViewData('Foo', 'Bar');
+        $this->setViewItem('Foo', 'Bar');
 
         return new View('Baz');
     }
@@ -40,7 +40,7 @@ class TestController extends Controller
      */
     public function customViewAction()
     {
-        $this->setViewData('Foo', 'Bar');
+        $this->setViewItem('Foo', 'Bar');
 
         return new View('Baz', 'custom');
     }
