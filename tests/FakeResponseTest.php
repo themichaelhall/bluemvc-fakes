@@ -17,7 +17,7 @@ class FakeResponseTest extends PHPUnit_Framework_TestCase
         $request = new FakeRequest('http://domain.com/');
         $response = new FakeResponse($request);
 
-        $this->assertSame($request, $response->getRequest());
+        self::assertSame($request, $response->getRequest());
     }
 
     /**
@@ -28,7 +28,7 @@ class FakeResponseTest extends PHPUnit_Framework_TestCase
         $request = new FakeRequest('http://domain.com/');
         $response = new FakeResponse($request);
 
-        $this->assertSame('', $response->getContent());
+        self::assertSame('', $response->getContent());
     }
 
     /**
@@ -40,7 +40,7 @@ class FakeResponseTest extends PHPUnit_Framework_TestCase
         $response = new FakeResponse($request);
         $response->setContent('Hello world!');
 
-        $this->assertSame('Hello world!', $response->getContent());
+        self::assertSame('Hello world!', $response->getContent());
     }
 
     /**
@@ -51,7 +51,7 @@ class FakeResponseTest extends PHPUnit_Framework_TestCase
         $request = new FakeRequest('http://domain.com/');
         $response = new FakeResponse($request);
 
-        $this->assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
     }
 
     /**
@@ -63,7 +63,7 @@ class FakeResponseTest extends PHPUnit_Framework_TestCase
         $response = new FakeResponse($request);
         $response->setStatusCode(new StatusCode(StatusCode::INTERNAL_SERVER_ERROR));
 
-        $this->assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
+        self::assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
     }
 
     /**
@@ -74,7 +74,7 @@ class FakeResponseTest extends PHPUnit_Framework_TestCase
         $request = new FakeRequest('http://localhost/');
         $response = new FakeResponse($request);
 
-        $this->assertSame([], iterator_to_array($response->getHeaders()));
+        self::assertSame([], iterator_to_array($response->getHeaders()));
     }
 
     /**
@@ -86,7 +86,7 @@ class FakeResponseTest extends PHPUnit_Framework_TestCase
         $response = new FakeResponse($request);
         $response->setHeader('Content-Type', 'text/plain');
 
-        $this->assertSame(['Content-Type' => 'text/plain'], iterator_to_array($response->getHeaders()));
+        self::assertSame(['Content-Type' => 'text/plain'], iterator_to_array($response->getHeaders()));
     }
 
     /**
@@ -98,8 +98,8 @@ class FakeResponseTest extends PHPUnit_Framework_TestCase
         $response = new FakeResponse($request);
         $response->setHeader('Content-Type', 'text/plain');
 
-        $this->assertSame('text/plain', $response->getHeader('content-type'));
-        $this->assertNull($response->getHeader('Location'));
+        self::assertSame('text/plain', $response->getHeader('content-type'));
+        self::assertNull($response->getHeader('Location'));
     }
 
     /**
@@ -112,6 +112,21 @@ class FakeResponseTest extends PHPUnit_Framework_TestCase
         $response->setHeader('allow', 'GET');
         $response->addHeader('Allow', 'POST');
 
-        $this->assertSame(['Allow' => 'GET, POST'], iterator_to_array($response->getHeaders()));
+        self::assertSame(['Allow' => 'GET, POST'], iterator_to_array($response->getHeaders()));
+    }
+
+    /**
+     * Test setExpiry method.
+     */
+    public function testSetExpiry()
+    {
+        $request = new FakeRequest('http://localhost/');
+        $response = new FakeResponse($request);
+        $expiry = (new \DateTimeImmutable())->add(new \DateInterval('PT24H'));
+        $response->setExpiry($expiry);
+
+        self::assertSame($expiry->setTimezone(new \DateTimeZone('UTC'))->format('D, d M Y H:i:s \G\M\T'), $response->getHeader('Expires'));
+        self::assertSame('public, max-age=86400', $response->getHeader('Cache-Control'));
+        self::assertSame('Accept-Encoding', $response->getHeader('Vary'));
     }
 }
