@@ -86,6 +86,16 @@ class TestController extends Controller
     }
 
     /**
+     * Action returning null.
+     *
+     * @return null The result.
+     */
+    public function nullAction()
+    {
+        return null;
+    }
+
+    /**
      * Pre-action event.
      *
      * @return string|null The result.

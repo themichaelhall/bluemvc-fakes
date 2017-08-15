@@ -98,6 +98,19 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test get null result page.
+     */
+    public function testGetNullResultPage()
+    {
+        $request = new FakeRequest('http://localhost/null');
+        $response = new FakeResponse($request);
+        $this->application->run($request, $response);
+
+        self::assertSame('', $response->getContent());
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+    }
+
+    /**
      * Test pre-action event.
      */
     public function testPreActionEvent()
