@@ -1,5 +1,7 @@
 <?php
 
+namespace BlueMvc\Fakes\Tests;
+
 use BlueMvc\Core\Http\StatusCode;
 use BlueMvc\Core\Route;
 use BlueMvc\Fakes\FakeApplication;
@@ -13,7 +15,7 @@ require_once __DIR__ . '/Helpers/TestController.php';
 /**
  * Test basic routing using FakeApplication class.
  */
-class RoutingTest extends PHPUnit_Framework_TestCase
+class RoutingTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test get index page.
@@ -24,8 +26,8 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $response = new FakeResponse($request);
         $this->application->run($request, $response);
 
-        $this->assertSame('Hello World!', $response->getContent());
-        $this->assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        self::assertSame('Hello World!', $response->getContent());
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
     }
 
     /**
@@ -37,8 +39,8 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $response = new FakeResponse($request);
         $this->application->run($request, $response);
 
-        $this->assertSame('ViewData=Bar, Model=Baz, Url=http://localhost/view, TempDir=' . $this->application->getTempPath(), $response->getContent());
-        $this->assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        self::assertSame('ViewData=Bar, Model=Baz, Url=http://localhost/view, TempDir=' . $this->application->getTempPath(), $response->getContent());
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
     }
 
     /**
@@ -50,8 +52,8 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $response = new FakeResponse($request);
         $this->application->run($request, $response);
 
-        $this->assertSame('Custom view, ViewData=Bar, Model=Baz, Url=http://localhost/customView, TempDir=' . $this->application->getTempPath(), $response->getContent());
-        $this->assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        self::assertSame('Custom view, ViewData=Bar, Model=Baz, Url=http://localhost/customView, TempDir=' . $this->application->getTempPath(), $response->getContent());
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
     }
 
     /**
@@ -63,9 +65,9 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $response = new FakeResponse($request);
         $this->application->run($request, $response);
 
-        $this->assertSame('', $response->getContent());
-        $this->assertSame(StatusCode::MOVED_PERMANENTLY, $response->getStatusCode()->getCode());
-        $this->assertSame('https://localhost/', $response->getHeader('Location'));
+        self::assertSame('', $response->getContent());
+        self::assertSame(StatusCode::MOVED_PERMANENTLY, $response->getStatusCode()->getCode());
+        self::assertSame('https://localhost/', $response->getHeader('Location'));
     }
 
     /**
@@ -77,9 +79,22 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $response = new FakeResponse($request);
         $this->application->run($request, $response);
 
-        $this->assertSame('{"Foo":"Bar"}', $response->getContent());
-        $this->assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
-        $this->assertSame('application/json', $response->getHeader('Content-Type'));
+        self::assertSame('{"Foo":"Bar"}', $response->getContent());
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        self::assertSame('application/json', $response->getHeader('Content-Type'));
+    }
+
+    /**
+     * Test get scalar result page.
+     */
+    public function testGetScalarResultPage()
+    {
+        $request = new FakeRequest('http://localhost/scalar');
+        $response = new FakeResponse($request);
+        $this->application->run($request, $response);
+
+        self::assertSame('12.5', $response->getContent());
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
     }
 
     /**
@@ -92,8 +107,8 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $response = new FakeResponse($request);
         $this->application->run($request, $response);
 
-        $this->assertSame('Pre-action event triggered.', $response->getContent());
-        $this->assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        self::assertSame('Pre-action event triggered.', $response->getContent());
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
     }
 
     /**
@@ -106,8 +121,8 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $response = new FakeResponse($request);
         $this->application->run($request, $response);
 
-        $this->assertSame('Post-action event triggered.', $response->getContent());
-        $this->assertSame(StatusCode::FORBIDDEN, $response->getStatusCode()->getCode());
+        self::assertSame('Post-action event triggered.', $response->getContent());
+        self::assertSame(StatusCode::FORBIDDEN, $response->getStatusCode()->getCode());
     }
 
     /**
@@ -119,8 +134,8 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $response = new FakeResponse($request);
         $this->application->run($request, $response);
 
-        $this->assertSame('', $response->getContent());
-        $this->assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
+        self::assertSame('', $response->getContent());
+        self::assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
     }
 
     /**
@@ -133,9 +148,9 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $response = new FakeResponse($request);
         $this->application->run($request, $response);
 
-        $this->assertContains('<h1>Throwing exception!</h1>', $response->getContent());
-        $this->assertContains('<code>DomainException</code>', $response->getContent());
-        $this->assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
+        self::assertContains('<h1>Throwing exception!</h1>', $response->getContent());
+        self::assertContains('<code>DomainException</code>', $response->getContent());
+        self::assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
     }
 
     /**
@@ -143,13 +158,13 @@ class RoutingTest extends PHPUnit_Framework_TestCase
      */
     public function testErrorController()
     {
-        $this->application->setErrorControllerClass(TestErrorController::class);
+        $this->application->setErrorControllerClass(\TestErrorController::class);
         $request = new FakeRequest('http://localhost/exception');
         $response = new FakeResponse($request);
         $this->application->run($request, $response);
 
-        $this->assertSame('StatusCode=500', $response->getContent());
-        $this->assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
+        self::assertSame('StatusCode=500', $response->getContent());
+        self::assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
     }
 
     /**
@@ -160,7 +175,7 @@ class RoutingTest extends PHPUnit_Framework_TestCase
         $this->application = new FakeApplication();
         $this->application->setViewPath(FilePath::parse(__DIR__ . '/Helpers/Views/'));
         $this->application->addViewRenderer(new TestViewRenderer());
-        $this->application->addRoute(new Route('', TestController::class));
+        $this->application->addRoute(new Route('', \TestController::class));
     }
 
     /**

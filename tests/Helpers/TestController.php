@@ -76,6 +76,16 @@ class TestController extends Controller
     }
 
     /**
+     * Action returning a scalar.
+     *
+     * @return float The result.
+     */
+    public function scalarAction()
+    {
+        return 12.5;
+    }
+
+    /**
      * Pre-action event.
      *
      * @return string|null The result.
