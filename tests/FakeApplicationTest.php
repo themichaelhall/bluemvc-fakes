@@ -5,12 +5,11 @@ namespace BlueMvc\Fakes\Tests;
 use BlueMvc\Core\Exceptions\InvalidFilePathException;
 use BlueMvc\Core\Route;
 use BlueMvc\Fakes\FakeApplication;
+use BlueMvc\Fakes\Tests\Helpers\TestController;
+use BlueMvc\Fakes\Tests\Helpers\TestErrorController;
 use BlueMvc\Fakes\Tests\Helpers\TestViewRenderer;
 use DataTypes\Exceptions\FilePathInvalidArgumentException;
 use DataTypes\FilePath;
-
-require_once __DIR__ . '/Helpers/TestController.php';
-require_once __DIR__ . '/Helpers/TestErrorController.php';
 
 /**
  * Test FakeApplication class.
@@ -123,7 +122,7 @@ class FakeApplicationTest extends \PHPUnit_Framework_TestCase
     public function testAddRoute()
     {
         $fakeApplication = new FakeApplication();
-        $fakeApplication->addRoute(new Route('', \TestController::class));
+        $fakeApplication->addRoute(new Route('', TestController::class));
         $routes = $fakeApplication->getRoutes();
 
         self::assertSame(1, count($routes));
@@ -235,9 +234,9 @@ class FakeApplicationTest extends \PHPUnit_Framework_TestCase
     public function testSetErrorControllerClass()
     {
         $fakeApplication = new FakeApplication();
-        $fakeApplication->setErrorControllerClass(\TestErrorController::class);
+        $fakeApplication->setErrorControllerClass(TestErrorController::class);
 
-        self::assertSame(\TestErrorController::class, $fakeApplication->getErrorControllerClass());
+        self::assertSame(TestErrorController::class, $fakeApplication->getErrorControllerClass());
     }
 
     /**
@@ -281,11 +280,11 @@ class FakeApplicationTest extends \PHPUnit_Framework_TestCase
      * Test setErrorControllerClass method with ordinary controller class name.
      *
      * @expectedException \BlueMvc\Core\Exceptions\InvalidControllerClassException
-     * @expectedExceptionMessage "TestController" is not a valid error controller class.
+     * @expectedExceptionMessage "BlueMvc\Fakes\Tests\Helpers\TestController" is not a valid error controller class.
      */
     public function testSetErrorControllerWithOrdinaryControllerClassName()
     {
         $fakeApplication = new FakeApplication();
-        $fakeApplication->setErrorControllerClass(\TestController::class);
+        $fakeApplication->setErrorControllerClass(TestController::class);
     }
 }

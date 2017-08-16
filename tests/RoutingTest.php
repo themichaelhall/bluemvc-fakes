@@ -7,10 +7,10 @@ use BlueMvc\Core\Route;
 use BlueMvc\Fakes\FakeApplication;
 use BlueMvc\Fakes\FakeRequest;
 use BlueMvc\Fakes\FakeResponse;
+use BlueMvc\Fakes\Tests\Helpers\TestController;
+use BlueMvc\Fakes\Tests\Helpers\TestErrorController;
 use BlueMvc\Fakes\Tests\Helpers\TestViewRenderer;
 use DataTypes\FilePath;
-
-require_once __DIR__ . '/Helpers/TestController.php';
 
 /**
  * Test basic routing using FakeApplication class.
@@ -171,7 +171,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
      */
     public function testErrorController()
     {
-        $this->application->setErrorControllerClass(\TestErrorController::class);
+        $this->application->setErrorControllerClass(TestErrorController::class);
         $request = new FakeRequest('http://localhost/exception');
         $response = new FakeResponse($request);
         $this->application->run($request, $response);
@@ -188,7 +188,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
         $this->application = new FakeApplication();
         $this->application->setViewPath(FilePath::parse(__DIR__ . '/Helpers/Views/'));
         $this->application->addViewRenderer(new TestViewRenderer());
-        $this->application->addRoute(new Route('', \TestController::class));
+        $this->application->addRoute(new Route('', TestController::class));
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+namespace BlueMvc\Fakes\Tests\Helpers;
+
 use BlueMvc\Core\ActionResults\ForbiddenResult;
 use BlueMvc\Core\ActionResults\JsonResult;
 use BlueMvc\Core\ActionResults\PermanentRedirectResult;

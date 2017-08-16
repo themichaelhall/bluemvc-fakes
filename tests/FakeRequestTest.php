@@ -15,8 +15,8 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
     {
         $fakeRequest = new FakeRequest();
 
-        $this->assertSame('http://localhost/', $fakeRequest->getUrl()->__toString());
-        $this->assertSame('GET', $fakeRequest->getMethod()->__toString());
+        self::assertSame('http://localhost/', $fakeRequest->getUrl()->__toString());
+        self::assertSame('GET', $fakeRequest->getMethod()->__toString());
     }
 
     /**
@@ -26,8 +26,8 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
     {
         $fakeRequest = new FakeRequest('http://domain.com/foo/bar');
 
-        $this->assertSame('http://domain.com/foo/bar', $fakeRequest->getUrl()->__toString());
-        $this->assertSame('GET', $fakeRequest->getMethod()->__toString());
+        self::assertSame('http://domain.com/foo/bar', $fakeRequest->getUrl()->__toString());
+        self::assertSame('GET', $fakeRequest->getMethod()->__toString());
     }
 
     /**
@@ -37,8 +37,8 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
     {
         $fakeRequest = new FakeRequest('/bar/baz');
 
-        $this->assertSame('http://localhost/bar/baz', $fakeRequest->getUrl()->__toString());
-        $this->assertSame('GET', $fakeRequest->getMethod()->__toString());
+        self::assertSame('http://localhost/bar/baz', $fakeRequest->getUrl()->__toString());
+        self::assertSame('GET', $fakeRequest->getMethod()->__toString());
     }
 
     /**
@@ -48,8 +48,8 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
     {
         $fakeRequest = new FakeRequest('http://localhost/foo/bar', 'POST');
 
-        $this->assertSame('http://localhost/foo/bar', $fakeRequest->getUrl()->__toString());
-        $this->assertSame('POST', $fakeRequest->getMethod()->__toString());
+        self::assertSame('http://localhost/foo/bar', $fakeRequest->getUrl()->__toString());
+        self::assertSame('POST', $fakeRequest->getMethod()->__toString());
     }
 
     /**
@@ -103,7 +103,7 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
     {
         $fakeRequest = new FakeRequest('http://localhost:81/foo/bar');
 
-        $this->assertSame(['Host' => 'localhost:81'], iterator_to_array($fakeRequest->getHeaders()));
+        self::assertSame(['Host' => 'localhost:81'], iterator_to_array($fakeRequest->getHeaders()));
     }
 
     /**
@@ -115,7 +115,7 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
         $fakeRequest->setHeader('Host', 'foo.com');
         $fakeRequest->setHeader('Accept-Language', 'en');
 
-        $this->assertSame(['Host' => 'foo.com', 'Accept-Language' => 'en'], iterator_to_array($fakeRequest->getHeaders()));
+        self::assertSame(['Host' => 'foo.com', 'Accept-Language' => 'en'], iterator_to_array($fakeRequest->getHeaders()));
     }
 
     /**
@@ -127,7 +127,7 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
         $fakeRequest->addHeader('Accept-Language', 'sv');
         $fakeRequest->addHeader('Accept-Language', 'en');
 
-        $this->assertSame(['Host' => 'localhost:81', 'Accept-Language' => 'sv, en'], iterator_to_array($fakeRequest->getHeaders()));
+        self::assertSame(['Host' => 'localhost:81', 'Accept-Language' => 'sv, en'], iterator_to_array($fakeRequest->getHeaders()));
     }
 
     /**
@@ -137,8 +137,8 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
     {
         $fakeRequest = new FakeRequest('http://localhost:81/foo/bar');
 
-        $this->assertSame('localhost:81', $fakeRequest->getHeader('Host'));
-        $this->assertNull($fakeRequest->getHeader('Accept-Language'));
+        self::assertSame('localhost:81', $fakeRequest->getHeader('Host'));
+        self::assertNull($fakeRequest->getHeader('Accept-Language'));
     }
 
     /**
@@ -148,7 +148,7 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
     {
         $fakeRequest = new FakeRequest();
 
-        $this->assertSame('', $fakeRequest->getUserAgent());
+        self::assertSame('', $fakeRequest->getUserAgent());
     }
 
     /**
@@ -159,7 +159,7 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
         $fakeRequest = new FakeRequest();
         $fakeRequest->setHeader('User-Agent', 'FakeUserAgent/1.0');
 
-        $this->assertSame('FakeUserAgent/1.0', $fakeRequest->getUserAgent());
+        self::assertSame('FakeUserAgent/1.0', $fakeRequest->getUserAgent());
     }
 
     /**
@@ -169,7 +169,7 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
     {
         $fakeRequest = new FakeRequest();
 
-        $this->assertSame([], iterator_to_array($fakeRequest->getFormParameters()));
+        self::assertSame([], iterator_to_array($fakeRequest->getFormParameters()));
     }
 
     /**
@@ -182,7 +182,7 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
         $formParameters->set('Foo', 'Bar');
         $fakeRequest->setFormParameters($formParameters);
 
-        $this->assertSame(['Foo' => 'Bar'], iterator_to_array($fakeRequest->getFormParameters()));
+        self::assertSame(['Foo' => 'Bar'], iterator_to_array($fakeRequest->getFormParameters()));
     }
 
     /**
@@ -195,8 +195,8 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
         $formParameters->set('Foo', 'Bar');
         $fakeRequest->setFormParameters($formParameters);
 
-        $this->assertSame('Bar', $fakeRequest->getFormParameter('Foo'));
-        $this->assertNull($fakeRequest->getFormParameter('Bar'));
+        self::assertSame('Bar', $fakeRequest->getFormParameter('Foo'));
+        self::assertNull($fakeRequest->getFormParameter('Bar'));
     }
 
     /**
@@ -207,7 +207,7 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
         $fakeRequest = new FakeRequest();
         $fakeRequest->setFormParameter('Foo', 'Bar');
 
-        $this->assertSame(['Foo' => 'Bar'], iterator_to_array($fakeRequest->getFormParameters()));
+        self::assertSame(['Foo' => 'Bar'], iterator_to_array($fakeRequest->getFormParameters()));
     }
 
     /**
@@ -217,7 +217,7 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
     {
         $fakeRequest = new FakeRequest();
 
-        $this->assertSame([], iterator_to_array($fakeRequest->getQueryParameters()));
+        self::assertSame([], iterator_to_array($fakeRequest->getQueryParameters()));
     }
 
     /**
@@ -227,7 +227,7 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
     {
         $fakeRequest = new FakeRequest('http://localhost/?foo=1&bar[]=2&bar[]=3');
 
-        $this->assertSame(['foo' => '1', 'bar' => '2'], iterator_to_array($fakeRequest->getQueryParameters()));
+        self::assertSame(['foo' => '1', 'bar' => '2'], iterator_to_array($fakeRequest->getQueryParameters()));
     }
 
     /**
@@ -237,8 +237,8 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
     {
         $fakeRequest = new FakeRequest('http://localhost/?foo=1&bar=2&bar=3');
 
-        $this->assertSame('1', $fakeRequest->getQueryParameter('foo'));
-        $this->assertSame('3', $fakeRequest->getQueryParameter('bar'));
-        $this->assertNull($fakeRequest->getQueryParameter('baz'));
+        self::assertSame('1', $fakeRequest->getQueryParameter('foo'));
+        self::assertSame('3', $fakeRequest->getQueryParameter('bar'));
+        self::assertNull($fakeRequest->getQueryParameter('baz'));
     }
 }
