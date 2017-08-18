@@ -1,12 +1,14 @@
 <?php
 
+namespace BlueMvc\Fakes\Tests;
+
 use BlueMvc\Core\Collections\ParameterCollection;
 use BlueMvc\Fakes\FakeRequest;
 
 /**
  * Test FakeRequest class.
  */
-class FakeRequestTest extends PHPUnit_Framework_TestCase
+class FakeRequestTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test empty constructor.
@@ -77,7 +79,7 @@ class FakeRequestTest extends PHPUnit_Framework_TestCase
     /**
      * Test constructor with invalid method.
      *
-     * @expectedException BlueMvc\Core\Exceptions\Http\InvalidMethodNameException
+     * @expectedException \BlueMvc\Core\Exceptions\Http\InvalidMethodNameException
      * @expectedExceptionMessage Method "(FOO)" contains invalid character "(".
      */
     public function testConstructorWithInvalidMethod()
