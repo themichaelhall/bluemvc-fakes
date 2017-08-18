@@ -1,5 +1,8 @@
 <?php
 
+namespace BlueMvc\Fakes\Tests;
+
+use BlueMvc\Core\Collections\HeaderCollection;
 use BlueMvc\Core\Http\StatusCode;
 use BlueMvc\Fakes\FakeRequest;
 use BlueMvc\Fakes\FakeResponse;
@@ -7,7 +10,7 @@ use BlueMvc\Fakes\FakeResponse;
 /**
  * Test FakeResponse class.
  */
-class FakeResponseTest extends PHPUnit_Framework_TestCase
+class FakeResponseTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test getRequest method.
@@ -113,6 +116,21 @@ class FakeResponseTest extends PHPUnit_Framework_TestCase
         $response->addHeader('Allow', 'POST');
 
         self::assertSame(['Allow' => 'GET, POST'], iterator_to_array($response->getHeaders()));
+    }
+
+    /**
+     * Test setHeaders method.
+     */
+    public function testSetHeaders()
+    {
+        $request = new FakeRequest('http://localhost/');
+        $response = new FakeResponse($request);
+        $headers = new HeaderCollection();
+        $headers->set('Content-Type', 'text/plain');
+        $headers->set('Cache-Control', 'private');
+        $response->setHeaders($headers);
+
+        self::assertSame(['Content-Type' => 'text/plain', 'Cache-Control' => 'private'], iterator_to_array($response->getHeaders()));
     }
 
     /**
