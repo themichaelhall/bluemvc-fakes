@@ -243,4 +243,14 @@ class FakeRequestTest extends \PHPUnit_Framework_TestCase
         self::assertSame('3', $fakeRequest->getQueryParameter('bar'));
         self::assertNull($fakeRequest->getQueryParameter('baz'));
     }
+
+    /**
+     * Test getUploadedFiles method without uploaded files set.
+     */
+    public function testGetUploadedFilesWithoutUploadedFilesSet()
+    {
+        $fakeRequest = new FakeRequest('/', 'POST');
+
+        self::assertSame([], iterator_to_array($fakeRequest->getUploadedFiles()));
+    }
 }
