@@ -286,4 +286,16 @@ class FakeRequestTest extends \PHPUnit_Framework_TestCase
         self::assertNull($fakeRequest->getUploadedFile('File'));
         self::assertNull($fakeRequest->getUploadedFile('foo'));
     }
+
+    /**
+     * Test setUploadedFile method.
+     */
+    public function testSetUploadedFile()
+    {
+        $fakeRequest = new FakeRequest('/', 'POST');
+        $file = new UploadedFile(FilePath::parse('/tmp/foo'), 'Foo', 10000);
+        $fakeRequest->setUploadedFile('file', $file);
+
+        self::assertSame(['file' => $file], iterator_to_array($fakeRequest->getUploadedFiles()));
+    }
 }
