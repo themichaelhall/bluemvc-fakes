@@ -14,6 +14,7 @@ use BlueMvc\Core\Exceptions\Http\InvalidMethodNameException;
 use BlueMvc\Core\Http\Method;
 use BlueMvc\Core\Interfaces\Collections\HeaderCollectionInterface;
 use BlueMvc\Core\Interfaces\Collections\ParameterCollectionInterface;
+use BlueMvc\Core\Interfaces\Collections\UploadedFileCollectionInterface;
 use DataTypes\Exceptions\UrlInvalidArgumentException;
 use DataTypes\Interfaces\UrlInterface;
 use DataTypes\Url;
@@ -104,6 +105,18 @@ class FakeRequest extends AbstractRequest
     public function setHeader($name, $value)
     {
         parent::setHeader($name, $value);
+    }
+
+    /**
+     * Sets the uploaded files.
+     *
+     * @since 1.0.0
+     *
+     * @param UploadedFileCollectionInterface $uploadedFiles The uploaded files.
+     */
+    public function setUploadedFiles(UploadedFileCollectionInterface $uploadedFiles)
+    {
+        parent::setUploadedFiles($uploadedFiles);
     }
 
     /**

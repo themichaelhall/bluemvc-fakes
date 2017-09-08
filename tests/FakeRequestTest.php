@@ -3,7 +3,10 @@
 namespace BlueMvc\Fakes\Tests;
 
 use BlueMvc\Core\Collections\ParameterCollection;
+use BlueMvc\Core\Collections\UploadedFileCollection;
+use BlueMvc\Core\UploadedFile;
 use BlueMvc\Fakes\FakeRequest;
+use DataTypes\FilePath;
 
 /**
  * Test FakeRequest class.
@@ -252,5 +255,19 @@ class FakeRequestTest extends \PHPUnit_Framework_TestCase
         $fakeRequest = new FakeRequest('/', 'POST');
 
         self::assertSame([], iterator_to_array($fakeRequest->getUploadedFiles()));
+    }
+
+    /**
+     * Test setUploadedFiles method.
+     */
+    public function testGetUploadedFilesWithUploadedFilesSet()
+    {
+        $fakeRequest = new FakeRequest('/', 'POST');
+        $file = new UploadedFile(FilePath::parse('/tmp/foo'), 'Foo', 10000);
+        $uploadedFiles = new UploadedFileCollection();
+        $uploadedFiles->set('file', $file);
+        $fakeRequest->setUploadedFiles($uploadedFiles);
+
+        self::assertSame(['file' => $file], iterator_to_array($fakeRequest->getUploadedFiles()));
     }
 }
