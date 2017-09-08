@@ -270,4 +270,20 @@ class FakeRequestTest extends \PHPUnit_Framework_TestCase
 
         self::assertSame(['file' => $file], iterator_to_array($fakeRequest->getUploadedFiles()));
     }
+
+    /**
+     * Test getUploadedFile method.
+     */
+    public function testGetUploadedFile()
+    {
+        $fakeRequest = new FakeRequest('/', 'POST');
+        $file = new UploadedFile(FilePath::parse('/tmp/foo'), 'Foo', 10000);
+        $uploadedFiles = new UploadedFileCollection();
+        $uploadedFiles->set('file', $file);
+        $fakeRequest->setUploadedFiles($uploadedFiles);
+
+        self::assertSame($file, $fakeRequest->getUploadedFile('file'));
+        self::assertNull($fakeRequest->getUploadedFile('File'));
+        self::assertNull($fakeRequest->getUploadedFile('foo'));
+    }
 }
