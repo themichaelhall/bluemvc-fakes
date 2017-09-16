@@ -106,6 +106,19 @@ class FakeResponseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test setHeader method.
+     */
+    public function testSetHeader()
+    {
+        $request = new FakeRequest('http://localhost/');
+        $response = new FakeResponse($request);
+        $response->setHeader('allow', 'GET');
+        $response->setHeader('Allow', 'POST');
+
+        self::assertSame(['Allow' => 'POST'], iterator_to_array($response->getHeaders()));
+    }
+
+    /**
      * Test addHeader method.
      */
     public function testAddHeader()
