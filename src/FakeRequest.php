@@ -109,6 +109,18 @@ class FakeRequest extends AbstractRequest
     }
 
     /**
+     * Sets the headers.
+     *
+     * @since 1.0.0
+     *
+     * @param HeaderCollectionInterface $headers The headers.
+     */
+    public function setHeaders(HeaderCollectionInterface $headers)
+    {
+        parent::setHeaders($headers);
+    }
+
+    /**
      * Sets an uploaded file.
      *
      * @since 1.0.0

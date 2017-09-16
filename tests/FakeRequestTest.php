@@ -2,6 +2,7 @@
 
 namespace BlueMvc\Fakes\Tests;
 
+use BlueMvc\Core\Collections\HeaderCollection;
 use BlueMvc\Core\Collections\ParameterCollection;
 use BlueMvc\Core\Collections\UploadedFileCollection;
 use BlueMvc\Core\UploadedFile;
@@ -109,6 +110,20 @@ class FakeRequestTest extends \PHPUnit_Framework_TestCase
         $fakeRequest = new FakeRequest('http://localhost:81/foo/bar');
 
         self::assertSame(['Host' => 'localhost:81'], iterator_to_array($fakeRequest->getHeaders()));
+    }
+
+    /**
+     * Test setHeaders method.
+     */
+    public function testSetHeaders()
+    {
+        $fakeRequest = new FakeRequest('http://localhost/foo/bar');
+        $headers = new HeaderCollection();
+        $headers->set('Host', 'example.com');
+        $headers->set('User-Agent', 'FakeUserAgent/1.0');
+        $fakeRequest->setHeaders($headers);
+
+        self::assertSame(['Host' => 'example.com', 'User-Agent' => 'FakeUserAgent/1.0'], iterator_to_array($fakeRequest->getHeaders()));
     }
 
     /**
