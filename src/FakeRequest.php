@@ -14,9 +14,10 @@ use BlueMvc\Core\Exceptions\Http\InvalidMethodNameException;
 use BlueMvc\Core\Http\Method;
 use BlueMvc\Core\Interfaces\Collections\HeaderCollectionInterface;
 use BlueMvc\Core\Interfaces\Collections\ParameterCollectionInterface;
-use BlueMvc\Core\Interfaces\Collections\UploadedFileCollectionInterface;
-use BlueMvc\Core\Interfaces\UploadedFileInterface;
+use BlueMvc\Core\UploadedFile;
+use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
 use DataTypes\Exceptions\UrlInvalidArgumentException;
+use DataTypes\FilePath;
 use DataTypes\Interfaces\UrlInterface;
 use DataTypes\Url;
 
@@ -121,28 +122,55 @@ class FakeRequest extends AbstractRequest
     }
 
     /**
-     * Sets an uploaded file.
+     * Uploads a file.
      *
      * @since 1.0.0
      *
-     * @param string                $name         The uploaded file name.
-     * @param UploadedFileInterface $uploadedFile The uploaded file.
+     * @param string $name     The name.
+     * @param string $filename The filename.
+     *
+     * @throws \InvalidArgumentException    If any of the $name or $filename parameter is not a string.
+     * @throws InvalidUploadedFileException If the filename is a non-existing file.
      */
-    public function setUploadedFile($name, UploadedFileInterface $uploadedFile)
+    public function uploadFile($name, $filename)
     {
-        parent::setUploadedFile($name, $uploadedFile);
+        if (!is_string($name)) {
+            throw new \InvalidArgumentException('$name parameter is not a string.');
+        }
+
+        if (!is_string($filename)) {
+            throw new \InvalidArgumentException('$filename parameter is not a string.');
+        }
+
+        $sourceFile = FilePath::parse($filename);
+        if (!file_exists($sourceFile->__toString())) {
+            throw new InvalidUploadedFileException('File "' . $sourceFile . '" does not exist.');
+        }
+
+        $destinationFile = tempnam(sys_get_temp_dir(), 'php');
+        copy($sourceFile, $destinationFile);
+
+        $this->setUploadedFile(
+            $name,
+            new UploadedFile(
+                FilePath::parse($destinationFile),
+                $sourceFile->__toString(),
+                filesize($destinationFile)
+            )
+        );
     }
 
     /**
-     * Sets the uploaded files.
+     * Destructor.
      *
      * @since 1.0.0
-     *
-     * @param UploadedFileCollectionInterface $uploadedFiles The uploaded files.
      */
-    public function setUploadedFiles(UploadedFileCollectionInterface $uploadedFiles)
+    public function __destruct()
     {
-        parent::setUploadedFiles($uploadedFiles);
+        // Clean up uploaded files.
+        foreach ($this->getUploadedFiles() as $uploadedFile) {
+            unlink($uploadedFile->getPath()->__toString());
+        }
     }
 
     /**

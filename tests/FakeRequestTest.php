@@ -4,10 +4,8 @@ namespace BlueMvc\Fakes\Tests;
 
 use BlueMvc\Core\Collections\HeaderCollection;
 use BlueMvc\Core\Collections\ParameterCollection;
-use BlueMvc\Core\Collections\UploadedFileCollection;
-use BlueMvc\Core\UploadedFile;
+use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
 use BlueMvc\Fakes\FakeRequest;
-use DataTypes\FilePath;
 
 /**
  * Test FakeRequest class.
@@ -263,54 +261,66 @@ class FakeRequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getUploadedFiles method without uploaded files set.
+     * Test uploadFile method.
      */
-    public function testGetUploadedFilesWithoutUploadedFilesSet()
+    public function testUploadFile()
     {
-        $fakeRequest = new FakeRequest('/', 'POST');
+        $DS = DIRECTORY_SEPARATOR;
 
-        self::assertSame([], iterator_to_array($fakeRequest->getUploadedFiles()));
+        $uploadedFilePath = __DIR__ . $DS . 'Helpers' . $DS . 'Files' . $DS . 'helloworld.txt';
+        $fakeRequest = new FakeRequest('/', 'POST');
+        $fakeRequest->uploadFile('foo', $uploadedFilePath);
+        $uploadedFile = $fakeRequest->getUploadedFile('foo');
+
+        self::assertSame(['foo' => $uploadedFile], iterator_to_array($fakeRequest->getUploadedFiles()));
+        self::assertNotSame($uploadedFilePath, $uploadedFile->getPath()->__toString());
+        self::assertFileExists($uploadedFile->getPath()->__toString());
+        self::assertSame('Hello World!', file_get_contents($uploadedFile->getPath()->__toString()));
+        self::assertSame($uploadedFilePath, $uploadedFile->getOriginalName());
+        self::assertSame(12, $uploadedFile->getSize());
     }
 
     /**
-     * Test setUploadedFiles method.
+     * Test uploadFile method with invalid name parameter type.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage $name parameter is not a string.
      */
-    public function testGetUploadedFilesWithUploadedFilesSet()
+    public function testUploadFileWithInvalidNameParameterType()
     {
+        $uploadedFilePath = __DIR__ . '/Helpers/Files/helloworld.txt';
         $fakeRequest = new FakeRequest('/', 'POST');
-        $file = new UploadedFile(FilePath::parse('/tmp/foo'), 'Foo', 10000);
-        $uploadedFiles = new UploadedFileCollection();
-        $uploadedFiles->set('file', $file);
-        $fakeRequest->setUploadedFiles($uploadedFiles);
-
-        self::assertSame(['file' => $file], iterator_to_array($fakeRequest->getUploadedFiles()));
+        $fakeRequest->uploadFile(false, $uploadedFilePath);
     }
 
     /**
-     * Test getUploadedFile method.
+     * Test uploadFile method with invalid filename parameter type.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage $filename parameter is not a string.
      */
-    public function testGetUploadedFile()
+    public function testUploadFileWithInvalidFilenameParameterType()
     {
         $fakeRequest = new FakeRequest('/', 'POST');
-        $file = new UploadedFile(FilePath::parse('/tmp/foo'), 'Foo', 10000);
-        $uploadedFiles = new UploadedFileCollection();
-        $uploadedFiles->set('file', $file);
-        $fakeRequest->setUploadedFiles($uploadedFiles);
-
-        self::assertSame($file, $fakeRequest->getUploadedFile('file'));
-        self::assertNull($fakeRequest->getUploadedFile('File'));
-        self::assertNull($fakeRequest->getUploadedFile('foo'));
+        $fakeRequest->uploadFile('foo', false);
     }
 
     /**
-     * Test setUploadedFile method.
+     * Test uploadFile method with invalid filename path.
      */
-    public function testSetUploadedFile()
+    public function testUploadFileWithInvalidFilenamePath()
     {
-        $fakeRequest = new FakeRequest('/', 'POST');
-        $file = new UploadedFile(FilePath::parse('/tmp/foo'), 'Foo', 10000);
-        $fakeRequest->setUploadedFile('file', $file);
+        $DS = DIRECTORY_SEPARATOR;
 
-        self::assertSame(['file' => $file], iterator_to_array($fakeRequest->getUploadedFiles()));
+        $fakeRequest = new FakeRequest('/', 'POST');
+        $exceptionMessage = null;
+
+        try {
+            $fakeRequest->uploadFile('foo', __DIR__ . $DS . 'Helpers' . $DS . 'Files' . $DS . 'foo.dat');
+        } catch (InvalidUploadedFileException $exception) {
+            $exceptionMessage = $exception->getMessage();
+        }
+
+        self::assertSame('File "' . __DIR__ . $DS . 'Helpers' . $DS . 'Files' . $DS . 'foo.dat" does not exist.', $exceptionMessage);
     }
 }
