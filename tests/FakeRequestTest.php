@@ -4,6 +4,8 @@ namespace BlueMvc\Fakes\Tests;
 
 use BlueMvc\Core\Collections\HeaderCollection;
 use BlueMvc\Core\Collections\ParameterCollection;
+use BlueMvc\Core\Collections\RequestCookieCollection;
+use BlueMvc\Core\RequestCookie;
 use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
 use BlueMvc\Fakes\FakeRequest;
 
@@ -322,5 +324,69 @@ class FakeRequestTest extends \PHPUnit_Framework_TestCase
         }
 
         self::assertSame('File "' . __DIR__ . $DS . 'Helpers' . $DS . 'Files' . $DS . 'foo.dat" does not exist.', $exceptionMessage);
+    }
+
+    /**
+     * Test getCookies method.
+     */
+    public function testGetCookies()
+    {
+        $fakeRequest = new FakeRequest();
+
+        self::assertSame([], iterator_to_array($fakeRequest->getCookies()));
+    }
+
+    /**
+     * Test getCookies method.
+     */
+    public function testSetCookies()
+    {
+        $fooCookie = new RequestCookie('1');
+        $barCookie = new RequestCookie('2');
+
+        $cookies = new RequestCookieCollection();
+        $cookies->set('foo', $fooCookie);
+        $cookies->set('bar', $barCookie);
+
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setCookies($cookies);
+
+        self::assertSame(['foo' => $fooCookie, 'bar' => $barCookie], iterator_to_array($fakeRequest->getCookies()));
+    }
+
+    /**
+     * Test getCookie method.
+     */
+    public function testGetCookie()
+    {
+        $fooCookie = new RequestCookie('1');
+        $barCookie = new RequestCookie('2');
+
+        $cookies = new RequestCookieCollection();
+        $cookies->set('foo', $fooCookie);
+        $cookies->set('bar', $barCookie);
+
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setCookies($cookies);
+
+        self::assertSame($fooCookie, $fakeRequest->getCookie('foo'));
+        self::assertSame($barCookie, $fakeRequest->getCookie('bar'));
+        self::assertNull($fakeRequest->getCookie('Bar'));
+        self::assertNull($fakeRequest->getCookie('baz'));
+    }
+
+    /**
+     * Test setCookie method.
+     */
+    public function testSetCookie()
+    {
+        $fooCookie = new RequestCookie('1');
+        $barCookie = new RequestCookie('2');
+
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setCookie('foo', $fooCookie);
+        $fakeRequest->setCookie('bar', $barCookie);
+
+        self::assertSame(['foo' => $fooCookie, 'bar' => $barCookie], iterator_to_array($fakeRequest->getCookies()));
     }
 }

@@ -14,6 +14,8 @@ use BlueMvc\Core\Exceptions\Http\InvalidMethodNameException;
 use BlueMvc\Core\Http\Method;
 use BlueMvc\Core\Interfaces\Collections\HeaderCollectionInterface;
 use BlueMvc\Core\Interfaces\Collections\ParameterCollectionInterface;
+use BlueMvc\Core\Interfaces\Collections\RequestCookieCollectionInterface;
+use BlueMvc\Core\Interfaces\RequestCookieInterface;
 use BlueMvc\Core\UploadedFile;
 use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
 use DataTypes\Exceptions\UrlInvalidArgumentException;
@@ -67,6 +69,33 @@ class FakeRequest extends AbstractRequest
     public function addHeader($name, $value)
     {
         parent::addHeader($name, $value);
+    }
+
+    /**
+     * Sets a cookie.
+     *
+     * @since 1.0.0
+     *
+     * @param string                 $name   The cookie name.
+     * @param RequestCookieInterface $cookie The cookie.
+     *
+     * @throws \InvalidArgumentException If the $name parameter is not a string.
+     */
+    public function setCookie($name, RequestCookieInterface $cookie)
+    {
+        parent::setCookie($name, $cookie);
+    }
+
+    /**
+     * Sets the cookies.
+     *
+     * @since 1.0.0
+     *
+     * @param RequestCookieCollectionInterface $cookies
+     */
+    public function setCookies(RequestCookieCollectionInterface $cookies)
+    {
+        parent::setCookies($cookies);
     }
 
     /**
