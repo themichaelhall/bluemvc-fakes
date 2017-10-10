@@ -23,7 +23,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
     public function testGetIndexPage()
     {
         $request = new FakeRequest('http://localhost/');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $this->application->run($request, $response);
 
         self::assertSame('Hello World!', $response->getContent());
@@ -36,7 +36,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
     public function testGetViewPage()
     {
         $request = new FakeRequest('http://localhost/view');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $this->application->run($request, $response);
 
         self::assertSame('ViewData=Bar, Model=Baz, Url=http://localhost/view, TempDir=' . $this->application->getTempPath(), $response->getContent());
@@ -49,7 +49,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomViewPage()
     {
         $request = new FakeRequest('http://localhost/customView');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $this->application->run($request, $response);
 
         self::assertSame('Custom view, ViewData=Bar, Model=Baz, Url=http://localhost/customView, TempDir=' . $this->application->getTempPath(), $response->getContent());
@@ -62,7 +62,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
     public function testGetActionResultPage()
     {
         $request = new FakeRequest('http://localhost/actionResult');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $this->application->run($request, $response);
 
         self::assertSame('', $response->getContent());
@@ -76,7 +76,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
     public function testGetJsonResultPage()
     {
         $request = new FakeRequest('http://localhost/jsonResult');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $this->application->run($request, $response);
 
         self::assertSame('{"Foo":"Bar"}', $response->getContent());
@@ -90,7 +90,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
     public function testGetScalarResultPage()
     {
         $request = new FakeRequest('http://localhost/scalar');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $this->application->run($request, $response);
 
         self::assertSame('12.5', $response->getContent());
@@ -103,7 +103,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
     public function testGetNullResultPage()
     {
         $request = new FakeRequest('http://localhost/null');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $this->application->run($request, $response);
 
         self::assertSame('', $response->getContent());
@@ -117,7 +117,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
     {
         $request = new FakeRequest('http://localhost/');
         $request->setHeader('X-Trigger-PreActionEvent', 'Yes');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $this->application->run($request, $response);
 
         self::assertSame('Pre-action event triggered.', $response->getContent());
@@ -131,7 +131,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
     {
         $request = new FakeRequest('http://localhost/');
         $request->setHeader('X-Trigger-PostActionEvent', 'Yes');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $this->application->run($request, $response);
 
         self::assertSame('Post-action event triggered.', $response->getContent());
@@ -144,7 +144,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
     public function testExceptionForNonDebugApplication()
     {
         $request = new FakeRequest('http://localhost/exception');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $this->application->run($request, $response);
 
         self::assertSame('', $response->getContent());
@@ -158,7 +158,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
     {
         $this->application->setDebug(true);
         $request = new FakeRequest('http://localhost/exception');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $this->application->run($request, $response);
 
         self::assertContains('<h1>Throwing exception!</h1>', $response->getContent());
@@ -173,7 +173,7 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
     {
         $this->application->setErrorControllerClass(TestErrorController::class);
         $request = new FakeRequest('http://localhost/exception');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $this->application->run($request, $response);
 
         self::assertSame('StatusCode=500', $response->getContent());

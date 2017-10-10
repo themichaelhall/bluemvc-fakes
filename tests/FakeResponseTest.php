@@ -4,7 +4,6 @@ namespace BlueMvc\Fakes\Tests;
 
 use BlueMvc\Core\Collections\HeaderCollection;
 use BlueMvc\Core\Http\StatusCode;
-use BlueMvc\Fakes\FakeRequest;
 use BlueMvc\Fakes\FakeResponse;
 
 /**
@@ -13,23 +12,11 @@ use BlueMvc\Fakes\FakeResponse;
 class FakeResponseTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test getRequest method.
-     */
-    public function testGetRequest()
-    {
-        $request = new FakeRequest('http://domain.com/');
-        $response = new FakeResponse($request);
-
-        self::assertSame($request, $response->getRequest());
-    }
-
-    /**
      * Test getContent method.
      */
     public function testGetContent()
     {
-        $request = new FakeRequest('http://domain.com/');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
 
         self::assertSame('', $response->getContent());
     }
@@ -39,8 +26,7 @@ class FakeResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetContent()
     {
-        $request = new FakeRequest('http://domain.com/');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $response->setContent('Hello world!');
 
         self::assertSame('Hello world!', $response->getContent());
@@ -51,8 +37,7 @@ class FakeResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStatusCode()
     {
-        $request = new FakeRequest('http://domain.com/');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
 
         self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
     }
@@ -62,8 +47,7 @@ class FakeResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetStatusCode()
     {
-        $request = new FakeRequest('http://domain.com/');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $response->setStatusCode(new StatusCode(StatusCode::INTERNAL_SERVER_ERROR));
 
         self::assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
@@ -74,8 +58,7 @@ class FakeResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHeadersForResponseWithNoAdditionalHeaders()
     {
-        $request = new FakeRequest('http://localhost/');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
 
         self::assertSame([], iterator_to_array($response->getHeaders()));
     }
@@ -85,8 +68,7 @@ class FakeResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHeadersForResponseWithAdditionalHeaders()
     {
-        $request = new FakeRequest('http://localhost/');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $response->setHeader('Content-Type', 'text/plain');
 
         self::assertSame(['Content-Type' => 'text/plain'], iterator_to_array($response->getHeaders()));
@@ -97,8 +79,7 @@ class FakeResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHeader()
     {
-        $request = new FakeRequest('http://localhost/');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $response->setHeader('Content-Type', 'text/plain');
 
         self::assertSame('text/plain', $response->getHeader('content-type'));
@@ -110,8 +91,7 @@ class FakeResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetHeader()
     {
-        $request = new FakeRequest('http://localhost/');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $response->setHeader('allow', 'GET');
         $response->setHeader('Allow', 'POST');
 
@@ -123,8 +103,7 @@ class FakeResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddHeader()
     {
-        $request = new FakeRequest('http://localhost/');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $response->setHeader('allow', 'GET');
         $response->addHeader('Allow', 'POST');
 
@@ -136,8 +115,7 @@ class FakeResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetHeaders()
     {
-        $request = new FakeRequest('http://localhost/');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $headers = new HeaderCollection();
         $headers->set('Content-Type', 'text/plain');
         $headers->set('Cache-Control', 'private');
@@ -151,8 +129,7 @@ class FakeResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetExpiry()
     {
-        $request = new FakeRequest('http://localhost/');
-        $response = new FakeResponse($request);
+        $response = new FakeResponse();
         $expiry = (new \DateTimeImmutable())->add(new \DateInterval('PT24H'));
         $response->setExpiry($expiry);
 
