@@ -3,8 +3,12 @@
 namespace BlueMvc\Fakes\Tests;
 
 use BlueMvc\Core\Collections\HeaderCollection;
+use BlueMvc\Core\Collections\ResponseCookieCollection;
 use BlueMvc\Core\Http\StatusCode;
+use BlueMvc\Core\ResponseCookie;
 use BlueMvc\Fakes\FakeResponse;
+use DataTypes\Host;
+use DataTypes\UrlPath;
 
 /**
  * Test FakeResponse class.
@@ -135,5 +139,59 @@ class FakeResponseTest extends \PHPUnit_Framework_TestCase
 
         self::assertSame($expiry->setTimezone(new \DateTimeZone('UTC'))->format('D, d M Y H:i:s \G\M\T'), $response->getHeader('Expires'));
         self::assertSame('public, max-age=86400', $response->getHeader('Cache-Control'));
+    }
+
+    /**
+     * Test getCookies method.
+     */
+    public function testGetCookies()
+    {
+        $response = new FakeResponse();
+
+        self::assertSame([], iterator_to_array($response->getCookies()));
+    }
+
+    /**
+     * Test setCookies method.
+     */
+    public function testSetCookies()
+    {
+        $response = new FakeResponse();
+        $cookies = new ResponseCookieCollection();
+        $fooCookie = new ResponseCookie('aaa', new \DateTimeImmutable(), UrlPath::parse('/baz/'), Host::parse('www.example.com'), true, true);
+        $cookies->set('foo', $fooCookie);
+        $barCookie = new ResponseCookie('bbb');
+        $cookies->set('bar', $barCookie);
+        $response->setCookies($cookies);
+
+        self::assertSame(['foo' => $fooCookie, 'bar' => $barCookie], iterator_to_array($response->getCookies()));
+    }
+
+    /**
+     * Test getCookie method.
+     */
+    public function testGetCookie()
+    {
+        $response = new FakeResponse();
+        $cookies = new ResponseCookieCollection();
+        $fooCookie = new ResponseCookie('aaa', new \DateTimeImmutable(), UrlPath::parse('/baz/'), Host::parse('www.example.com'), true, true);
+        $cookies->set('foo', $fooCookie);
+        $response->setCookies($cookies);
+
+        self::assertSame($fooCookie, $response->getCookie('foo'));
+        self::assertNull($response->getCookie('Foo'));
+        self::assertNull($response->getCookie('bar'));
+    }
+
+    /**
+     * Test setCookie method.
+     */
+    public function testSetCookie()
+    {
+        $response = new FakeResponse();
+        $fooCookie = new ResponseCookie('aaa', new \DateTimeImmutable(), UrlPath::parse('/baz/'), Host::parse('www.example.com'), true, true);
+        $response->setCookie('foo', $fooCookie);
+
+        self::assertSame(['foo' => $fooCookie], iterator_to_array($response->getCookies()));
     }
 }
