@@ -9,6 +9,7 @@ namespace BlueMvc\Fakes;
 
 use BlueMvc\Core\Base\AbstractApplication;
 use BlueMvc\Core\Exceptions\InvalidFilePathException;
+use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
 use DataTypes\Exceptions\FilePathInvalidArgumentException;
 use DataTypes\FilePath;
 
@@ -44,7 +45,7 @@ class FakeApplication extends AbstractApplication
             $documentRoot .= DIRECTORY_SEPARATOR;
         }
 
-        parent::__construct(FilePath::parse($documentRoot));
+        parent::__construct(FilePath::parse($documentRoot), new FakeSessionItemCollection());
     }
 
     /**
