@@ -43,7 +43,7 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      *
      * @since 1.0.0
      *
-     * @return string The current session item value.
+     * @return mixed The current session item value.
      */
     public function current()
     {
@@ -59,7 +59,7 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      *
      * @throws \InvalidArgumentException If the $name parameter is not a string.
      *
-     * @return string|null The session item value by session item name if it exists, null otherwise.
+     * @return mixed|null The session item value by session item name if it exists, null otherwise.
      */
     public function get($name)
     {
