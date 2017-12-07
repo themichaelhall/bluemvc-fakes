@@ -10,6 +10,8 @@ namespace BlueMvc\Fakes;
 use BlueMvc\Core\Base\AbstractRequest;
 use BlueMvc\Core\Collections\HeaderCollection;
 use BlueMvc\Core\Collections\ParameterCollection;
+use BlueMvc\Core\Collections\RequestCookieCollection;
+use BlueMvc\Core\Collections\UploadedFileCollection;
 use BlueMvc\Core\Exceptions\Http\InvalidMethodNameException;
 use BlueMvc\Core\Http\Method;
 use BlueMvc\Core\Interfaces\Collections\HeaderCollectionInterface;
@@ -52,10 +54,17 @@ class FakeRequest extends AbstractRequest
             throw new \InvalidArgumentException('$method parameter is not a string.');
         }
 
-        parent::__construct(Url::parseRelative($url, Url::parse('http://localhost/')), new Method($method));
+        $url = Url::parseRelative($url, Url::parse('http://localhost/'));
 
-        $this->setHeaders(self::myParseHeaders($this->getUrl()));
-        $this->setQueryParameters(self::myParseQueryParameters($this->getUrl()->getQueryString()));
+        parent::__construct(
+            $url,
+            new Method($method),
+            self::myParseHeaders($url),
+            self::myParseQueryParameters($url->getQueryString()),
+            new ParameterCollection(),
+            new UploadedFileCollection(),
+            new RequestCookieCollection()
+        );
     }
 
     /**
