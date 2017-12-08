@@ -287,4 +287,57 @@ class FakeApplicationTest extends \PHPUnit_Framework_TestCase
         $fakeApplication = new FakeApplication();
         $fakeApplication->setErrorControllerClass(TestController::class);
     }
+
+    /**
+     * Test getSessionItems method.
+     */
+    public function testGetSessionItems()
+    {
+        $fakeApplication = new FakeApplication();
+
+        self::assertSame([], iterator_to_array($fakeApplication->getSessionItems()));
+    }
+
+    /**
+     * Test setSessionItem method.
+     */
+    public function testSetSessionItem()
+    {
+        $fakeApplication = new FakeApplication();
+        $fakeApplication->setSessionItem('Foo', ['Bar', 'Baz']);
+        $fakeApplication->setSessionItem('Bar', 12345);
+
+        self::assertSame(['Foo' => ['Bar', 'Baz'], 'Bar' => 12345], iterator_to_array($fakeApplication->getSessionItems()));
+    }
+
+    /**
+     * Test getSessionItem method.
+     */
+    public function testGetSessionItem()
+    {
+        $fakeApplication = new FakeApplication();
+        $fakeApplication->setSessionItem('Foo', 1);
+        $fakeApplication->setSessionItem('Bar', 2);
+
+        self::assertSame(1, $fakeApplication->getSessionItem('Foo'));
+        self::assertSame(2, $fakeApplication->getSessionItem('Bar'));
+        self::assertNull($fakeApplication->getSessionItem('Baz'));
+        self::assertNull($fakeApplication->getSessionItem('foo'));
+    }
+
+    /**
+     * Test removeSessionItem method.
+     */
+    public function testRemoveSessionItem()
+    {
+        $fakeApplication = new FakeApplication();
+        $fakeApplication->setSessionItem('Foo', 1);
+        $fakeApplication->setSessionItem('Bar', 2);
+        $fakeApplication->removeSessionItem('Foo');
+        $fakeApplication->removeSessionItem('Baz');
+
+        self::assertNull($fakeApplication->getSessionItem('Foo'));
+        self::assertSame(2, $fakeApplication->getSessionItem('Bar'));
+        self::assertNull($fakeApplication->getSessionItem('Baz'));
+    }
 }
