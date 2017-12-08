@@ -9,6 +9,7 @@ namespace BlueMvc\Fakes;
 
 use BlueMvc\Core\Base\AbstractApplication;
 use BlueMvc\Core\Exceptions\InvalidFilePathException;
+use BlueMvc\Core\Interfaces\Collections\SessionItemCollectionInterface;
 use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
 use DataTypes\Exceptions\FilePathInvalidArgumentException;
 use DataTypes\FilePath;
@@ -58,5 +59,17 @@ class FakeApplication extends AbstractApplication
     public function setDebug($isDebug)
     {
         parent::setDebug($isDebug);
+    }
+
+    /**
+     * Sets the session items.
+     *
+     * @since 1.0.0
+     *
+     * @param SessionItemCollectionInterface $sessionItems The session items.
+     */
+    public function setSessionItems(SessionItemCollectionInterface $sessionItems)
+    {
+        parent::setSessionItems($sessionItems);
     }
 }

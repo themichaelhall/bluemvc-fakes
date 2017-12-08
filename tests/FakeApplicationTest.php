@@ -4,6 +4,7 @@ namespace BlueMvc\Fakes\Tests;
 
 use BlueMvc\Core\Exceptions\InvalidFilePathException;
 use BlueMvc\Core\Route;
+use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
 use BlueMvc\Fakes\FakeApplication;
 use BlueMvc\Fakes\Tests\Helpers\TestController;
 use BlueMvc\Fakes\Tests\Helpers\TestErrorController;
@@ -339,5 +340,20 @@ class FakeApplicationTest extends \PHPUnit_Framework_TestCase
         self::assertNull($fakeApplication->getSessionItem('Foo'));
         self::assertSame(2, $fakeApplication->getSessionItem('Bar'));
         self::assertNull($fakeApplication->getSessionItem('Baz'));
+    }
+
+    /**
+     * Test setSessionItems method.
+     */
+    public function testSetSessionItems()
+    {
+        $sessionItems = new FakeSessionItemCollection();
+        $sessionItems->set('Foo', 1);
+        $sessionItems->set('Bar', 2);
+
+        $fakeApplication = new FakeApplication();
+        $fakeApplication->setSessionItems($sessionItems);
+
+        self::assertSame(['Foo' => 1, 'Bar' => 2], iterator_to_array($fakeApplication->getSessionItems()));
     }
 }
