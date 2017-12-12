@@ -160,6 +160,20 @@ class FakeRequest extends AbstractRequest
     }
 
     /**
+     * Sets the raw content.
+     *
+     * @since 1.0.0
+     *
+     * @param string $content The content.
+     *
+     * @throws \InvalidArgumentException If the $content parameter is not a string.
+     */
+    public function setRawContent($content)
+    {
+        parent::setRawContent($content);
+    }
+
+    /**
      * Uploads a file.
      *
      * @since 1.0.0

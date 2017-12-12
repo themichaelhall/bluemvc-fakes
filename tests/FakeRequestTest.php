@@ -399,4 +399,28 @@ class FakeRequestTest extends \PHPUnit_Framework_TestCase
 
         self::assertSame('', $fakeRequest->getRawContent());
     }
+
+    /**
+     * Test setRawContent method.
+     */
+    public function testSetRawContent()
+    {
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setRawContent('Foo&Bar');
+
+        self::assertSame('Foo&Bar', $fakeRequest->getRawContent());
+    }
+
+    /**
+     * Test setRawContent method with invalid content parameter type.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage $content parameter is not a string.
+     */
+    public function testSetRawContentWithInvalidContentParameterType()
+    {
+        $fakeRequest = new FakeRequest();
+
+        $fakeRequest->setRawContent(0);
+    }
 }
