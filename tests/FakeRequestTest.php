@@ -389,4 +389,14 @@ class FakeRequestTest extends \PHPUnit_Framework_TestCase
 
         self::assertSame(['foo' => $fooCookie, 'bar' => $barCookie], iterator_to_array($fakeRequest->getCookies()));
     }
+
+    /**
+     * Test getRawContent method.
+     */
+    public function testGetRawContent()
+    {
+        $fakeRequest = new FakeRequest();
+
+        self::assertSame('', $fakeRequest->getRawContent());
+    }
 }
