@@ -423,4 +423,15 @@ class FakeRequestTest extends \PHPUnit_Framework_TestCase
 
         $fakeRequest->setRawContent(0);
     }
+
+    /**
+     * Test that the method parameter is case insensitive.
+     */
+    public function testMethodParameterIsCaseInsensitive()
+    {
+        $fakeRequest = new FakeRequest('/', 'Get');
+
+        self::assertTrue($fakeRequest->getMethod()->isGet());
+        self::assertSame('GET', $fakeRequest->getMethod()->getName());
+    }
 }

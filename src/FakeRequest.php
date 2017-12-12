@@ -38,7 +38,7 @@ class FakeRequest extends AbstractRequest
      * @since 1.0.0
      *
      * @param string $url    The url.
-     * @param string $method The method or null to use GET method.
+     * @param string $method The method.
      *
      * @throws \InvalidArgumentException   If any of the parameters are of invalid type.
      * @throws InvalidMethodNameException  If the method parameter is not a valid method.
@@ -55,10 +55,11 @@ class FakeRequest extends AbstractRequest
         }
 
         $url = Url::parseRelative($url, Url::parse('http://localhost/'));
+        $method = new Method(strtoupper($method));
 
         parent::__construct(
             $url,
-            new Method($method),
+            $method,
             self::myParseHeaders($url),
             self::myParseQueryParameters($url->getQueryString()),
             new ParameterCollection(),
