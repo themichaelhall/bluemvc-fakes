@@ -8,11 +8,12 @@ use BlueMvc\Core\Collections\RequestCookieCollection;
 use BlueMvc\Core\RequestCookie;
 use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
 use BlueMvc\Fakes\FakeRequest;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test FakeRequest class.
  */
-class FakeRequestTest extends \PHPUnit_Framework_TestCase
+class FakeRequestTest extends TestCase
 {
     /**
      * Test empty constructor.

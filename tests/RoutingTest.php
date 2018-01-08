@@ -11,11 +11,12 @@ use BlueMvc\Fakes\Tests\Helpers\TestController;
 use BlueMvc\Fakes\Tests\Helpers\TestErrorController;
 use BlueMvc\Fakes\Tests\Helpers\TestViewRenderer;
 use DataTypes\FilePath;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test basic routing using FakeApplication class.
  */
-class RoutingTest extends \PHPUnit_Framework_TestCase
+class RoutingTest extends TestCase
 {
     /**
      * Test get index page.

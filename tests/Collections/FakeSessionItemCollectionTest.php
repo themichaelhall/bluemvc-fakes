@@ -3,11 +3,12 @@
 namespace BlueMvc\Fakes\Tests\Collections;
 
 use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test FakeSessionItemCollection class.
  */
-class FakeSessionItemCollectionTest extends \PHPUnit_Framework_TestCase
+class FakeSessionItemCollectionTest extends TestCase
 {
     /**
      * Test count for empty collection.

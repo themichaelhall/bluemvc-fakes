@@ -9,11 +9,12 @@ use BlueMvc\Core\ResponseCookie;
 use BlueMvc\Fakes\FakeResponse;
 use DataTypes\Host;
 use DataTypes\UrlPath;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test FakeResponse class.
  */
-class FakeResponseTest extends \PHPUnit_Framework_TestCase
+class FakeResponseTest extends TestCase
 {
     /**
      * Test getContent method.

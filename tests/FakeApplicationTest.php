@@ -11,11 +11,12 @@ use BlueMvc\Fakes\Tests\Helpers\TestErrorController;
 use BlueMvc\Fakes\Tests\Helpers\TestViewRenderer;
 use DataTypes\Exceptions\FilePathInvalidArgumentException;
 use DataTypes\FilePath;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test FakeApplication class.
  */
-class FakeApplicationTest extends \PHPUnit_Framework_TestCase
+class FakeApplicationTest extends TestCase
 {
     /**
      * Test default constructor.
