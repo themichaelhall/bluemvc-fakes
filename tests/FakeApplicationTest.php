@@ -2,6 +2,7 @@
 
 namespace BlueMvc\Fakes\Tests;
 
+use BlueMvc\Core\Collections\CustomItemCollection;
 use BlueMvc\Core\Exceptions\InvalidFilePathException;
 use BlueMvc\Core\Route;
 use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
@@ -356,5 +357,56 @@ class FakeApplicationTest extends TestCase
         $fakeApplication->setSessionItems($sessionItems);
 
         self::assertSame(['Foo' => 1, 'Bar' => 2], iterator_to_array($fakeApplication->getSessionItems()));
+    }
+
+    /**
+     * Test getCustomItems method.
+     */
+    public function testGetCustomItems()
+    {
+        $fakeApplication = new FakeApplication();
+
+        self::assertSame([], iterator_to_array($fakeApplication->getCustomItems()));
+    }
+
+    /**
+     * Test setCustomItems method.
+     */
+    public function testSetCustomItems()
+    {
+        $customItems = new CustomItemCollection();
+        $customItems->set('Foo', 'Bar');
+
+        $fakeApplication = new FakeApplication();
+        $fakeApplication->setCustomItems($customItems);
+
+        self::assertSame(['Foo' => 'Bar'], iterator_to_array($fakeApplication->getCustomItems()));
+    }
+
+    /**
+     * Test getCustomItem method.
+     */
+    public function testGetCustomItem()
+    {
+        $customItems = new CustomItemCollection();
+        $customItems->set('Foo', 'Bar');
+
+        $fakeApplication = new FakeApplication();
+        $fakeApplication->setCustomItems($customItems);
+
+        self::assertSame('Bar', $fakeApplication->getCustomItem('Foo'));
+        self::assertNull($fakeApplication->getCustomItem('foo'));
+        self::assertNull($fakeApplication->getCustomItem('Bar'));
+    }
+
+    /**
+     * Test setCustomItem method.
+     */
+    public function testSetCustomItem()
+    {
+        $fakeApplication = new FakeApplication();
+        $fakeApplication->setCustomItem('Foo', 'Bar');
+
+        self::assertSame(['Foo' => 'Bar'], iterator_to_array($fakeApplication->getCustomItems()));
     }
 }
