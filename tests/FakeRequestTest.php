@@ -8,6 +8,7 @@ use BlueMvc\Core\Collections\RequestCookieCollection;
 use BlueMvc\Core\RequestCookie;
 use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
 use BlueMvc\Fakes\FakeRequest;
+use DataTypes\IPAddress;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -434,5 +435,28 @@ class FakeRequestTest extends TestCase
 
         self::assertTrue($fakeRequest->getMethod()->isGet());
         self::assertSame('GET', $fakeRequest->getMethod()->getName());
+    }
+
+    /**
+     * Test getClientIp method.
+     */
+    public function testGetClientIp()
+    {
+        $fakeRequest = new FakeRequest();
+
+        self::assertSame('127.0.0.1', $fakeRequest->getClientIp()->__toString());
+    }
+
+    /**
+     * Test setClientIp method.
+     */
+    public function testSetClientIp()
+    {
+        $clientIp = IPAddress::parse('192.168.1.1');
+
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setClientIp($clientIp);
+
+        self::assertSame($clientIp, $fakeRequest->getClientIp());
     }
 }
