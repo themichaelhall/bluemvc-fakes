@@ -23,6 +23,7 @@ use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
 use DataTypes\Exceptions\UrlInvalidArgumentException;
 use DataTypes\FilePath;
 use DataTypes\Interfaces\UrlInterface;
+use DataTypes\IPAddress;
 use DataTypes\Url;
 
 /**
@@ -66,6 +67,8 @@ class FakeRequest extends AbstractRequest
             new UploadedFileCollection(),
             new RequestCookieCollection()
         );
+
+        $this->setClientIp(IPAddress::fromParts([127, 0, 0, 1]));
     }
 
     /**

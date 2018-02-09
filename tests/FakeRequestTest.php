@@ -435,4 +435,14 @@ class FakeRequestTest extends TestCase
         self::assertTrue($fakeRequest->getMethod()->isGet());
         self::assertSame('GET', $fakeRequest->getMethod()->getName());
     }
+
+    /**
+     * Test getClientIp method.
+     */
+    public function testGetClientIp()
+    {
+        $fakeRequest = new FakeRequest();
+
+        self::assertSame('127.0.0.1', $fakeRequest->getClientIp()->__toString());
+    }
 }
