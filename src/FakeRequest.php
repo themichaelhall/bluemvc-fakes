@@ -22,7 +22,9 @@ use BlueMvc\Core\UploadedFile;
 use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
 use DataTypes\Exceptions\UrlInvalidArgumentException;
 use DataTypes\FilePath;
+use DataTypes\Interfaces\IPAddressInterface;
 use DataTypes\Interfaces\UrlInterface;
+use DataTypes\IPAddress;
 use DataTypes\Url;
 
 /**
@@ -66,6 +68,8 @@ class FakeRequest extends AbstractRequest
             new UploadedFileCollection(),
             new RequestCookieCollection()
         );
+
+        $this->setClientIp(IPAddress::fromParts([127, 0, 0, 1]));
     }
 
     /**
@@ -79,6 +83,18 @@ class FakeRequest extends AbstractRequest
     public function addHeader($name, $value)
     {
         parent::addHeader($name, $value);
+    }
+
+    /**
+     * Sets the client IP address.
+     *
+     * @since 1.1.0
+     *
+     * @param IPAddressInterface $clientIp The client IP address.
+     */
+    public function setClientIp(IPAddressInterface $clientIp)
+    {
+        parent::setClientIp($clientIp);
     }
 
     /**
