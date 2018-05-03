@@ -4,6 +4,7 @@
  *
  * Read more at https://bluemvc.com/
  */
+declare(strict_types=1);
 
 namespace BlueMvc\Fakes;
 
@@ -31,7 +32,7 @@ class FakeResponse extends AbstractResponse
      *
      * @since 1.0.0
      */
-    public function output()
+    public function output(): void
     {
     }
 }

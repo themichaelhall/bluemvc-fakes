@@ -4,6 +4,7 @@
  *
  * Read more at https://bluemvc.com/
  */
+declare(strict_types=1);
 
 namespace BlueMvc\Fakes\Collections;
 
@@ -23,7 +24,7 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      */
     public function __construct()
     {
-        $this->myItems = [];
+        $this->items = [];
     }
 
     /**
@@ -33,9 +34,9 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      *
      * @return int The number of session items.
      */
-    public function count()
+    public function count(): int
     {
-        return count($this->myItems);
+        return count($this->items);
     }
 
     /**
@@ -47,7 +48,7 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      */
     public function current()
     {
-        return current($this->myItems);
+        return current($this->items);
     }
 
     /**
@@ -57,21 +58,15 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      *
      * @param string $name The session item name.
      *
-     * @throws \InvalidArgumentException If the $name parameter is not a string.
-     *
      * @return mixed|null The session item value by session item name if it exists, null otherwise.
      */
-    public function get($name)
+    public function get(string $name)
     {
-        if (!is_string($name)) {
-            throw new \InvalidArgumentException('$name parameter is not a string.');
-        }
-
-        if (!isset($this->myItems[$name])) {
+        if (!isset($this->items[$name])) {
             return null;
         }
 
-        return $this->myItems[$name];
+        return $this->items[$name];
     }
 
     /**
@@ -81,9 +76,9 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      *
      * @return string The current session item name.
      */
-    public function key()
+    public function key(): string
     {
-        return key($this->myItems);
+        return strval(key($this->items));
     }
 
     /**
@@ -91,9 +86,9 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      *
      * @since 1.0.0
      */
-    public function next()
+    public function next(): void
     {
-        next($this->myItems);
+        next($this->items);
     }
 
     /**
@@ -102,16 +97,10 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      * @since 1.0.0
      *
      * @param string $name The session item name.
-     *
-     * @throws \InvalidArgumentException If the $name parameter is not a string.
      */
-    public function remove($name)
+    public function remove(string $name): void
     {
-        if (!is_string($name)) {
-            throw new \InvalidArgumentException('$name parameter is not a string.');
-        }
-
-        unset($this->myItems[$name]);
+        unset($this->items[$name]);
     }
 
     /**
@@ -119,9 +108,9 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      *
      * @since 1.0.0
      */
-    public function rewind()
+    public function rewind(): void
     {
-        reset($this->myItems);
+        reset($this->items);
     }
 
     /**
@@ -131,16 +120,10 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      *
      * @param string $name  The session item name.
      * @param mixed  $value The session item value.
-     *
-     * @throws \InvalidArgumentException If the $name parameter is not a string.
      */
-    public function set($name, $value)
+    public function set(string $name, $value): void
     {
-        if (!is_string($name)) {
-            throw new \InvalidArgumentException('$name parameter is not a string.');
-        }
-
-        $this->myItems[$name] = $value;
+        $this->items[$name] = $value;
     }
 
     /**
@@ -150,13 +133,13 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      *
      * @return bool True if the current session item is valid.
      */
-    public function valid()
+    public function valid(): bool
     {
-        return key($this->myItems) !== null;
+        return key($this->items) !== null;
     }
 
     /**
      * @var array My items.
      */
-    private $myItems;
+    private $items;
 }

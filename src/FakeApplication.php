@@ -4,6 +4,7 @@
  *
  * Read more at https://bluemvc.com/
  */
+declare(strict_types=1);
 
 namespace BlueMvc\Fakes;
 
@@ -29,15 +30,10 @@ class FakeApplication extends AbstractApplication
      * @param string|null $documentRoot The document root or null to use the current directory.
      *
      * @throws FilePathInvalidArgumentException If the document root parameter is not a valid file path.
-     * @throws \InvalidArgumentException        If the document root parameter is not a string or null.
      * @throws InvalidFilePathException         If the document root parameter is invalid.
      */
-    public function __construct($documentRoot = null)
+    public function __construct(?string $documentRoot = null)
     {
-        if (!is_string($documentRoot) && !(is_null($documentRoot))) {
-            throw new \InvalidArgumentException('$documentRoot parameter is not a string or null.');
-        }
-
         if ($documentRoot === null) {
             $documentRoot = getcwd();
         }
@@ -56,7 +52,7 @@ class FakeApplication extends AbstractApplication
      *
      * @param bool $isDebug The debug mode.
      */
-    public function setDebug($isDebug)
+    public function setDebug(bool $isDebug): void
     {
         parent::setDebug($isDebug);
     }
@@ -68,7 +64,7 @@ class FakeApplication extends AbstractApplication
      *
      * @param SessionItemCollectionInterface $sessionItems The session items.
      */
-    public function setSessionItems(SessionItemCollectionInterface $sessionItems)
+    public function setSessionItems(SessionItemCollectionInterface $sessionItems): void
     {
         parent::setSessionItems($sessionItems);
     }

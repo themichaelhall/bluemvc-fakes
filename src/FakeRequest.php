@@ -4,6 +4,7 @@
  *
  * Read more at https://bluemvc.com/
  */
+declare(strict_types=1);
 
 namespace BlueMvc\Fakes;
 
@@ -42,28 +43,19 @@ class FakeRequest extends AbstractRequest
      * @param string $url    The url.
      * @param string $method The method.
      *
-     * @throws \InvalidArgumentException   If any of the parameters are of invalid type.
      * @throws InvalidMethodNameException  If the method parameter is not a valid method.
      * @throws UrlInvalidArgumentException If the url parameter is not a valid Url.
      */
-    public function __construct($url = '/', $method = 'GET')
+    public function __construct(string $url = '/', string $method = 'GET')
     {
-        if (!is_string($url)) {
-            throw new \InvalidArgumentException('$url parameter is not a string.');
-        }
-
-        if (!is_string($method)) {
-            throw new \InvalidArgumentException('$method parameter is not a string.');
-        }
-
         $url = Url::parseRelative($url, Url::parse('http://localhost/'));
         $method = new Method(strtoupper($method));
 
         parent::__construct(
             $url,
             $method,
-            self::myParseHeaders($url),
-            self::myParseQueryParameters($url->getQueryString()),
+            self::parseHeaders($url),
+            self::parseQueryParameters($url->getQueryString()),
             new ParameterCollection(),
             new UploadedFileCollection(),
             new RequestCookieCollection()
@@ -80,7 +72,7 @@ class FakeRequest extends AbstractRequest
      * @param string $name  The name.
      * @param string $value The value.
      */
-    public function addHeader($name, $value)
+    public function addHeader(string $name, string $value): void
     {
         parent::addHeader($name, $value);
     }
@@ -92,7 +84,7 @@ class FakeRequest extends AbstractRequest
      *
      * @param IPAddressInterface $clientIp The client IP address.
      */
-    public function setClientIp(IPAddressInterface $clientIp)
+    public function setClientIp(IPAddressInterface $clientIp): void
     {
         parent::setClientIp($clientIp);
     }
@@ -104,10 +96,8 @@ class FakeRequest extends AbstractRequest
      *
      * @param string                 $name   The cookie name.
      * @param RequestCookieInterface $cookie The cookie.
-     *
-     * @throws \InvalidArgumentException If the $name parameter is not a string.
      */
-    public function setCookie($name, RequestCookieInterface $cookie)
+    public function setCookie(string $name, RequestCookieInterface $cookie): void
     {
         parent::setCookie($name, $cookie);
     }
@@ -117,9 +107,9 @@ class FakeRequest extends AbstractRequest
      *
      * @since 1.0.0
      *
-     * @param RequestCookieCollectionInterface $cookies
+     * @param RequestCookieCollectionInterface $cookies The cookies.
      */
-    public function setCookies(RequestCookieCollectionInterface $cookies)
+    public function setCookies(RequestCookieCollectionInterface $cookies): void
     {
         parent::setCookies($cookies);
     }
@@ -131,10 +121,8 @@ class FakeRequest extends AbstractRequest
      *
      * @param string $name  The form parameter name.
      * @param string $value The form parameter value.
-     *
-     * @throws \InvalidArgumentException If any of the parameters are of invalid type.
      */
-    public function setFormParameter($name, $value)
+    public function setFormParameter(string $name, string $value): void
     {
         parent::setFormParameter($name, $value);
     }
@@ -146,7 +134,7 @@ class FakeRequest extends AbstractRequest
      *
      * @param ParameterCollectionInterface $parameters The form parameters.
      */
-    public function setFormParameters(ParameterCollectionInterface $parameters)
+    public function setFormParameters(ParameterCollectionInterface $parameters): void
     {
         parent::setFormParameters($parameters);
     }
@@ -159,7 +147,7 @@ class FakeRequest extends AbstractRequest
      * @param string $name  The name.
      * @param string $value The value.
      */
-    public function setHeader($name, $value)
+    public function setHeader(string $name, string $value): void
     {
         parent::setHeader($name, $value);
     }
@@ -171,7 +159,7 @@ class FakeRequest extends AbstractRequest
      *
      * @param HeaderCollectionInterface $headers The headers.
      */
-    public function setHeaders(HeaderCollectionInterface $headers)
+    public function setHeaders(HeaderCollectionInterface $headers): void
     {
         parent::setHeaders($headers);
     }
@@ -182,10 +170,8 @@ class FakeRequest extends AbstractRequest
      * @since 1.0.0
      *
      * @param string $content The content.
-     *
-     * @throws \InvalidArgumentException If the $content parameter is not a string.
      */
-    public function setRawContent($content)
+    public function setRawContent(string $content): void
     {
         parent::setRawContent($content);
     }
@@ -198,26 +184,17 @@ class FakeRequest extends AbstractRequest
      * @param string $name     The name.
      * @param string $filename The filename.
      *
-     * @throws \InvalidArgumentException    If any of the $name or $filename parameter is not a string.
      * @throws InvalidUploadedFileException If the filename is a non-existing file.
      */
-    public function uploadFile($name, $filename)
+    public function uploadFile(string $name, string $filename): void
     {
-        if (!is_string($name)) {
-            throw new \InvalidArgumentException('$name parameter is not a string.');
-        }
-
-        if (!is_string($filename)) {
-            throw new \InvalidArgumentException('$filename parameter is not a string.');
-        }
-
         $sourceFile = FilePath::parse($filename);
         if (!file_exists($sourceFile->__toString())) {
             throw new InvalidUploadedFileException('File "' . $sourceFile . '" does not exist.');
         }
 
         $destinationFile = tempnam(sys_get_temp_dir(), 'php');
-        copy($sourceFile, $destinationFile);
+        copy($sourceFile->__toString(), $destinationFile);
 
         $this->setUploadedFile(
             $name,
@@ -249,7 +226,7 @@ class FakeRequest extends AbstractRequest
      *
      * @return HeaderCollectionInterface The header collection.
      */
-    private static function myParseHeaders(UrlInterface $url)
+    private static function parseHeaders(UrlInterface $url): HeaderCollectionInterface
     {
         $result = new HeaderCollection();
         $result->set('Host', $url->getHostAndPort());
@@ -264,7 +241,7 @@ class FakeRequest extends AbstractRequest
      *
      * @return ParameterCollectionInterface The parameter collection.
      */
-    private static function myParseQueryParameters($queryString)
+    private static function parseQueryParameters(?string $queryString): ParameterCollectionInterface
     {
         $parameters = new ParameterCollection();
 

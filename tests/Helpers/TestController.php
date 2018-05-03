@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BlueMvc\Fakes\Tests\Helpers;
 
 use BlueMvc\Core\ActionResults\ForbiddenResult;
