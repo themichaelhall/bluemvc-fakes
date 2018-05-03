@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BlueMvc\Fakes\Tests;
 
 use BlueMvc\Core\Collections\HeaderCollection;
@@ -72,17 +74,6 @@ class FakeRequestTest extends TestCase
     }
 
     /**
-     * Test constructor with invalid url parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $url parameter is not a string.
-     */
-    public function testConstructorWithInvalidUrlParameterType()
-    {
-        new FakeRequest(1000);
-    }
-
-    /**
      * Test constructor with invalid method.
      *
      * @expectedException \BlueMvc\Core\Exceptions\Http\InvalidMethodNameException
@@ -91,17 +82,6 @@ class FakeRequestTest extends TestCase
     public function testConstructorWithInvalidMethod()
     {
         new FakeRequest('http://localhost/foo/bar', '(FOO)');
-    }
-
-    /**
-     * Test constructor with invalid method parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $method parameter is not a string.
-     */
-    public function testConstructorWithInvalidMethodParameterType()
-    {
-        new FakeRequest('http://localhost/foo/bar', false);
     }
 
     /**
@@ -285,31 +265,6 @@ class FakeRequestTest extends TestCase
     }
 
     /**
-     * Test uploadFile method with invalid name parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $name parameter is not a string.
-     */
-    public function testUploadFileWithInvalidNameParameterType()
-    {
-        $uploadedFilePath = __DIR__ . '/Helpers/Files/helloworld.txt';
-        $fakeRequest = new FakeRequest('/', 'POST');
-        $fakeRequest->uploadFile(false, $uploadedFilePath);
-    }
-
-    /**
-     * Test uploadFile method with invalid filename parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $filename parameter is not a string.
-     */
-    public function testUploadFileWithInvalidFilenameParameterType()
-    {
-        $fakeRequest = new FakeRequest('/', 'POST');
-        $fakeRequest->uploadFile('foo', false);
-    }
-
-    /**
      * Test uploadFile method with invalid filename path.
      */
     public function testUploadFileWithInvalidFilenamePath()
@@ -411,19 +366,6 @@ class FakeRequestTest extends TestCase
         $fakeRequest->setRawContent('Foo&Bar');
 
         self::assertSame('Foo&Bar', $fakeRequest->getRawContent());
-    }
-
-    /**
-     * Test setRawContent method with invalid content parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $content parameter is not a string.
-     */
-    public function testSetRawContentWithInvalidContentParameterType()
-    {
-        $fakeRequest = new FakeRequest();
-
-        $fakeRequest->setRawContent(0);
     }
 
     /**

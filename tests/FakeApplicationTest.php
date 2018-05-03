@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BlueMvc\Fakes\Tests;
 
 use BlueMvc\Core\Collections\CustomItemCollection;
@@ -84,17 +86,6 @@ class FakeApplicationTest extends TestCase
         }
 
         self::assertSame('File path "' . $DS . 'var' . $DS . "\0" . 'www' . $DS . '" is invalid: Part of directory "' . "\0" . 'www" contains invalid character "' . "\0" . '".', $exceptionMessage);
-    }
-
-    /**
-     * Test constructor with invalid document root parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $documentRoot parameter is not a string or null.
-     */
-    public function testConstructorWithInvalidDocumentRootParameterType()
-    {
-        new FakeApplication(true);
     }
 
     /**
@@ -240,19 +231,6 @@ class FakeApplicationTest extends TestCase
         $fakeApplication->setErrorControllerClass(TestErrorController::class);
 
         self::assertSame(TestErrorController::class, $fakeApplication->getErrorControllerClass());
-    }
-
-    /**
-     * Test setErrorControllerClass method with invalid parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $errorControllerClass parameter is not a string.
-     */
-    public function testSetErrorControllerClassWithInvalidParameterType()
-    {
-        $fakeApplication = new FakeApplication();
-        /** @noinspection PhpParamsInspection */
-        $fakeApplication->setErrorControllerClass([]);
     }
 
     /**

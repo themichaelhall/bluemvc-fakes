@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BlueMvc\Fakes\Tests\Helpers;
 
 use BlueMvc\Core\Base\AbstractViewRenderer;
@@ -24,17 +26,17 @@ class TestViewRenderer extends AbstractViewRenderer
     /**
      * Renders the view.
      *
-     * @param ApplicationInterface        $application The application.
-     * @param RequestInterface            $request     The request.
-     * @param FilePathInterface           $viewFile    The view file.
-     * @param mixed                       $model       The model or null if there is no model.
-     * @param ViewItemCollectionInterface $viewItems   The view items or null if there is no view data.
+     * @param ApplicationInterface             $application The application.
+     * @param RequestInterface                 $request     The request.
+     * @param FilePathInterface                $viewFile    The view file.
+     * @param mixed|null                       $model       The model or null if there is no model.
+     * @param ViewItemCollectionInterface|null $viewItems   The view items or null if there is no view data.
      *
      * @return string The rendered view.
      */
-    public function renderView(ApplicationInterface $application, RequestInterface $request, FilePathInterface $viewFile, $model = null, ViewItemCollectionInterface $viewItems = null)
+    public function renderView(ApplicationInterface $application, RequestInterface $request, FilePathInterface $viewFile, $model = null, ?ViewItemCollectionInterface $viewItems = null): string
     {
-        $fileContent = file_get_contents($application->getViewPath()->withFilePath($viewFile));
+        $fileContent = file_get_contents($application->getViewPath()->withFilePath($viewFile)->__toString());
         $result = str_replace(
             [
                 '{MODEL}',
