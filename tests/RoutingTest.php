@@ -184,6 +184,48 @@ class RoutingTest extends TestCase
     }
 
     /**
+     * Test that session is preserved.
+     */
+    public function testSessionIsPreserved()
+    {
+        $request = new FakeRequest('http://localhost/session');
+        $response = new FakeResponse();
+        $this->application->run($request, $response);
+
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        self::assertSame('', $response->getContent());
+        self::assertSame([], iterator_to_array($this->application->getSessionItems()));
+
+        $request = new FakeRequest('http://localhost/session', 'post');
+        $request->setFormParameter('Name', 'Foo');
+        $request->setFormParameter('Value', 'Bar');
+        $response = new FakeResponse();
+        $this->application->run($request, $response);
+
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        self::assertSame('Foo=Bar', $response->getContent());
+        self::assertSame(['Foo' => 'Bar'], iterator_to_array($this->application->getSessionItems()));
+
+        $request = new FakeRequest('http://localhost/session', 'post');
+        $request->setFormParameter('Name', '1');
+        $request->setFormParameter('Value', '2');
+        $response = new FakeResponse();
+        $this->application->run($request, $response);
+
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        self::assertSame('Foo=Bar,1=2', $response->getContent());
+        self::assertSame(['Foo' => 'Bar', 1 => '2'], iterator_to_array($this->application->getSessionItems()));
+
+        $request = new FakeRequest('http://localhost/session');
+        $response = new FakeResponse();
+        $this->application->run($request, $response);
+
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        self::assertSame('Foo=Bar,1=2', $response->getContent());
+        self::assertSame(['Foo' => 'Bar', 1 => '2'], iterator_to_array($this->application->getSessionItems()));
+    }
+
+    /**
      * Set up.
      */
     public function setUp()

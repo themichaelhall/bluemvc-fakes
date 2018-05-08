@@ -100,6 +100,28 @@ class TestController extends Controller
     }
 
     /**
+     * Action that sets a session item and returns the current session items.
+     *
+     * @return string The result.
+     */
+    public function sessionAction()
+    {
+        if ($this->getRequest()->getMethod()->isPost()) {
+            $this->getApplication()->setSessionItem(
+                $this->getRequest()->getFormParameter('Name'),
+                $this->getRequest()->getFormParameter('Value')
+            );
+        }
+
+        $result = [];
+        foreach ($this->getApplication()->getSessionItems() as $itemKey => $itemValue) {
+            $result[] = $itemKey . '=' . $itemValue;
+        }
+
+        return implode(',', $result);
+    }
+
+    /**
      * Pre-action event.
      *
      * @return string|null The result.
