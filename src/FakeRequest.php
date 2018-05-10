@@ -18,8 +18,10 @@ use BlueMvc\Core\Http\Method;
 use BlueMvc\Core\Interfaces\Collections\HeaderCollectionInterface;
 use BlueMvc\Core\Interfaces\Collections\ParameterCollectionInterface;
 use BlueMvc\Core\Interfaces\Collections\RequestCookieCollectionInterface;
+use BlueMvc\Core\Interfaces\Collections\SessionItemCollectionInterface;
 use BlueMvc\Core\Interfaces\RequestCookieInterface;
 use BlueMvc\Core\UploadedFile;
+use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
 use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
 use DataTypes\Exceptions\UrlInvalidArgumentException;
 use DataTypes\FilePath;
@@ -58,7 +60,8 @@ class FakeRequest extends AbstractRequest
             self::parseQueryParameters($url->getQueryString()),
             new ParameterCollection(),
             new UploadedFileCollection(),
-            new RequestCookieCollection()
+            new RequestCookieCollection(),
+            new FakeSessionItemCollection()
         );
 
         $this->setClientIp(IPAddress::fromParts([127, 0, 0, 1]));
@@ -174,6 +177,18 @@ class FakeRequest extends AbstractRequest
     public function setRawContent(string $content): void
     {
         parent::setRawContent($content);
+    }
+
+    /**
+     * Sets the session items.
+     *
+     * @since 2.0.0
+     *
+     * @param SessionItemCollectionInterface $sessionItems The session items.
+     */
+    public function setSessionItems(SessionItemCollectionInterface $sessionItems): void
+    {
+        parent::setSessionItems($sessionItems);
     }
 
     /**

@@ -8,6 +8,7 @@ use BlueMvc\Core\Collections\HeaderCollection;
 use BlueMvc\Core\Collections\ParameterCollection;
 use BlueMvc\Core\Collections\RequestCookieCollection;
 use BlueMvc\Core\RequestCookie;
+use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
 use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
 use BlueMvc\Fakes\FakeRequest;
 use DataTypes\IPAddress;
@@ -400,5 +401,73 @@ class FakeRequestTest extends TestCase
         $fakeRequest->setClientIp($clientIp);
 
         self::assertSame($clientIp, $fakeRequest->getClientIp());
+    }
+
+    /**
+     * Test getSessionItems method.
+     */
+    public function testGetSessionItems()
+    {
+        $fakeRequest = new FakeRequest();
+
+        self::assertSame([], iterator_to_array($fakeRequest->getSessionItems()));
+    }
+
+    /**
+     * Test setSessionItem method.
+     */
+    public function testSetSessionItem()
+    {
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setSessionItem('Foo', ['Bar', 'Baz']);
+        $fakeRequest->setSessionItem('Bar', 12345);
+
+        self::assertSame(['Foo' => ['Bar', 'Baz'], 'Bar' => 12345], iterator_to_array($fakeRequest->getSessionItems()));
+    }
+
+    /**
+     * Test getSessionItem method.
+     */
+    public function testGetSessionItem()
+    {
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setSessionItem('Foo', 1);
+        $fakeRequest->setSessionItem('Bar', 2);
+
+        self::assertSame(1, $fakeRequest->getSessionItem('Foo'));
+        self::assertSame(2, $fakeRequest->getSessionItem('Bar'));
+        self::assertNull($fakeRequest->getSessionItem('Baz'));
+        self::assertNull($fakeRequest->getSessionItem('foo'));
+    }
+
+    /**
+     * Test removeSessionItem method.
+     */
+    public function testRemoveSessionItem()
+    {
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setSessionItem('Foo', 1);
+        $fakeRequest->setSessionItem('Bar', 2);
+        $fakeRequest->removeSessionItem('Foo');
+        $fakeRequest->removeSessionItem('Baz');
+
+        self::assertNull($fakeRequest->getSessionItem('Foo'));
+        self::assertSame(2, $fakeRequest->getSessionItem('Bar'));
+        self::assertNull($fakeRequest->getSessionItem('Baz'));
+    }
+
+    /**
+     * Test setSessionItems method.
+     */
+    public function testSetSessionItems()
+    {
+        $sessionItems = new FakeSessionItemCollection();
+        $sessionItems->set('Foo', 1);
+        $sessionItems->set('Bar', 2);
+
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setSessionItems($sessionItems);
+
+        self::assertSame(['Foo' => 1, 'Bar' => 2], iterator_to_array($fakeRequest->getSessionItems()));
     }
 }

@@ -107,14 +107,14 @@ class TestController extends Controller
     public function sessionAction()
     {
         if ($this->getRequest()->getMethod()->isPost()) {
-            $this->getApplication()->setSessionItem(
+            $this->getRequest()->setSessionItem(
                 $this->getRequest()->getFormParameter('Name'),
                 $this->getRequest()->getFormParameter('Value')
             );
         }
 
         $result = [];
-        foreach ($this->getApplication()->getSessionItems() as $itemKey => $itemValue) {
+        foreach ($this->getRequest()->getSessionItems() as $itemKey => $itemValue) {
             $result[] = $itemKey . '=' . $itemValue;
         }
 
