@@ -1,3 +1,5 @@
+## Unreleased
+
 ## [2.0.0] - 2018-05-14
 - **Backward compatibility break**: Moved session handling from FakeApplication to FakeRequest.
 - Updated PHP requirement to 7.1.
