@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BlueMvc\Fakes\Tests;
 
 use BlueMvc\Core\Collections\HeaderCollection;
 use BlueMvc\Core\Collections\ParameterCollection;
 use BlueMvc\Core\Collections\RequestCookieCollection;
 use BlueMvc\Core\RequestCookie;
+use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
 use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
 use BlueMvc\Fakes\FakeRequest;
 use DataTypes\IPAddress;
@@ -72,17 +75,6 @@ class FakeRequestTest extends TestCase
     }
 
     /**
-     * Test constructor with invalid url parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $url parameter is not a string.
-     */
-    public function testConstructorWithInvalidUrlParameterType()
-    {
-        new FakeRequest(1000);
-    }
-
-    /**
      * Test constructor with invalid method.
      *
      * @expectedException \BlueMvc\Core\Exceptions\Http\InvalidMethodNameException
@@ -91,17 +83,6 @@ class FakeRequestTest extends TestCase
     public function testConstructorWithInvalidMethod()
     {
         new FakeRequest('http://localhost/foo/bar', '(FOO)');
-    }
-
-    /**
-     * Test constructor with invalid method parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $method parameter is not a string.
-     */
-    public function testConstructorWithInvalidMethodParameterType()
-    {
-        new FakeRequest('http://localhost/foo/bar', false);
     }
 
     /**
@@ -285,31 +266,6 @@ class FakeRequestTest extends TestCase
     }
 
     /**
-     * Test uploadFile method with invalid name parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $name parameter is not a string.
-     */
-    public function testUploadFileWithInvalidNameParameterType()
-    {
-        $uploadedFilePath = __DIR__ . '/Helpers/Files/helloworld.txt';
-        $fakeRequest = new FakeRequest('/', 'POST');
-        $fakeRequest->uploadFile(false, $uploadedFilePath);
-    }
-
-    /**
-     * Test uploadFile method with invalid filename parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $filename parameter is not a string.
-     */
-    public function testUploadFileWithInvalidFilenameParameterType()
-    {
-        $fakeRequest = new FakeRequest('/', 'POST');
-        $fakeRequest->uploadFile('foo', false);
-    }
-
-    /**
      * Test uploadFile method with invalid filename path.
      */
     public function testUploadFileWithInvalidFilenamePath()
@@ -414,19 +370,6 @@ class FakeRequestTest extends TestCase
     }
 
     /**
-     * Test setRawContent method with invalid content parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $content parameter is not a string.
-     */
-    public function testSetRawContentWithInvalidContentParameterType()
-    {
-        $fakeRequest = new FakeRequest();
-
-        $fakeRequest->setRawContent(0);
-    }
-
-    /**
      * Test that the method parameter is case insensitive.
      */
     public function testMethodParameterIsCaseInsensitive()
@@ -458,5 +401,73 @@ class FakeRequestTest extends TestCase
         $fakeRequest->setClientIp($clientIp);
 
         self::assertSame($clientIp, $fakeRequest->getClientIp());
+    }
+
+    /**
+     * Test getSessionItems method.
+     */
+    public function testGetSessionItems()
+    {
+        $fakeRequest = new FakeRequest();
+
+        self::assertSame([], iterator_to_array($fakeRequest->getSessionItems()));
+    }
+
+    /**
+     * Test setSessionItem method.
+     */
+    public function testSetSessionItem()
+    {
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setSessionItem('Foo', ['Bar', 'Baz']);
+        $fakeRequest->setSessionItem('Bar', 12345);
+
+        self::assertSame(['Foo' => ['Bar', 'Baz'], 'Bar' => 12345], iterator_to_array($fakeRequest->getSessionItems()));
+    }
+
+    /**
+     * Test getSessionItem method.
+     */
+    public function testGetSessionItem()
+    {
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setSessionItem('Foo', 1);
+        $fakeRequest->setSessionItem('Bar', 2);
+
+        self::assertSame(1, $fakeRequest->getSessionItem('Foo'));
+        self::assertSame(2, $fakeRequest->getSessionItem('Bar'));
+        self::assertNull($fakeRequest->getSessionItem('Baz'));
+        self::assertNull($fakeRequest->getSessionItem('foo'));
+    }
+
+    /**
+     * Test removeSessionItem method.
+     */
+    public function testRemoveSessionItem()
+    {
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setSessionItem('Foo', 1);
+        $fakeRequest->setSessionItem('Bar', 2);
+        $fakeRequest->removeSessionItem('Foo');
+        $fakeRequest->removeSessionItem('Baz');
+
+        self::assertNull($fakeRequest->getSessionItem('Foo'));
+        self::assertSame(2, $fakeRequest->getSessionItem('Bar'));
+        self::assertNull($fakeRequest->getSessionItem('Baz'));
+    }
+
+    /**
+     * Test setSessionItems method.
+     */
+    public function testSetSessionItems()
+    {
+        $sessionItems = new FakeSessionItemCollection();
+        $sessionItems->set('Foo', 1);
+        $sessionItems->set('Bar', 2);
+
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setSessionItems($sessionItems);
+
+        self::assertSame(['Foo' => 1, 'Bar' => 2], iterator_to_array($fakeRequest->getSessionItems()));
     }
 }

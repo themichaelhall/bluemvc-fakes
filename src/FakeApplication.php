@@ -4,13 +4,12 @@
  *
  * Read more at https://bluemvc.com/
  */
+declare(strict_types=1);
 
 namespace BlueMvc\Fakes;
 
 use BlueMvc\Core\Base\AbstractApplication;
 use BlueMvc\Core\Exceptions\InvalidFilePathException;
-use BlueMvc\Core\Interfaces\Collections\SessionItemCollectionInterface;
-use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
 use DataTypes\Exceptions\FilePathInvalidArgumentException;
 use DataTypes\FilePath;
 
@@ -29,15 +28,10 @@ class FakeApplication extends AbstractApplication
      * @param string|null $documentRoot The document root or null to use the current directory.
      *
      * @throws FilePathInvalidArgumentException If the document root parameter is not a valid file path.
-     * @throws \InvalidArgumentException        If the document root parameter is not a string or null.
      * @throws InvalidFilePathException         If the document root parameter is invalid.
      */
-    public function __construct($documentRoot = null)
+    public function __construct(?string $documentRoot = null)
     {
-        if (!is_string($documentRoot) && !(is_null($documentRoot))) {
-            throw new \InvalidArgumentException('$documentRoot parameter is not a string or null.');
-        }
-
         if ($documentRoot === null) {
             $documentRoot = getcwd();
         }
@@ -46,7 +40,7 @@ class FakeApplication extends AbstractApplication
             $documentRoot .= DIRECTORY_SEPARATOR;
         }
 
-        parent::__construct(FilePath::parse($documentRoot), new FakeSessionItemCollection());
+        parent::__construct(FilePath::parse($documentRoot));
     }
 
     /**
@@ -56,20 +50,8 @@ class FakeApplication extends AbstractApplication
      *
      * @param bool $isDebug The debug mode.
      */
-    public function setDebug($isDebug)
+    public function setDebug(bool $isDebug): void
     {
         parent::setDebug($isDebug);
-    }
-
-    /**
-     * Sets the session items.
-     *
-     * @since 1.0.0
-     *
-     * @param SessionItemCollectionInterface $sessionItems The session items.
-     */
-    public function setSessionItems(SessionItemCollectionInterface $sessionItems)
-    {
-        parent::setSessionItems($sessionItems);
     }
 }

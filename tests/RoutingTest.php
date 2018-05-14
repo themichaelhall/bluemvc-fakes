@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BlueMvc\Fakes\Tests;
 
 use BlueMvc\Core\Http\StatusCode;
@@ -179,6 +181,54 @@ class RoutingTest extends TestCase
 
         self::assertSame('StatusCode=500', $response->getContent());
         self::assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
+    }
+
+    /**
+     * Test preserving session between requests.
+     */
+    public function testPreserveSessionBetweenRequests()
+    {
+        $request = new FakeRequest('http://localhost/session');
+        $response = new FakeResponse();
+        $this->application->run($request, $response);
+
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        self::assertSame('', $response->getContent());
+        self::assertSame([], iterator_to_array($request->getSessionItems()));
+
+        $session = $request->getSessionItems();
+        $request = new FakeRequest('http://localhost/session', 'post');
+        $request->setSessionItems($session);
+        $request->setFormParameter('Name', 'Foo');
+        $request->setFormParameter('Value', 'Bar');
+        $response = new FakeResponse();
+        $this->application->run($request, $response);
+
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        self::assertSame('Foo=Bar', $response->getContent());
+        self::assertSame(['Foo' => 'Bar'], iterator_to_array($request->getSessionItems()));
+
+        $session = $request->getSessionItems();
+        $request = new FakeRequest('http://localhost/session', 'post');
+        $request->setSessionItems($session);
+        $request->setFormParameter('Name', '1');
+        $request->setFormParameter('Value', '2');
+        $response = new FakeResponse();
+        $this->application->run($request, $response);
+
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        self::assertSame('Foo=Bar,1=2', $response->getContent());
+        self::assertSame(['Foo' => 'Bar', 1 => '2'], iterator_to_array($request->getSessionItems()));
+
+        $session = $request->getSessionItems();
+        $request = new FakeRequest('http://localhost/session');
+        $request->setSessionItems($session);
+        $response = new FakeResponse();
+        $this->application->run($request, $response);
+
+        self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
+        self::assertSame('Foo=Bar,1=2', $response->getContent());
+        self::assertSame(['Foo' => 'Bar', 1 => '2'], iterator_to_array($request->getSessionItems()));
     }
 
     /**

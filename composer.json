@@ -17,12 +17,12 @@
     }
   ],
   "require": {
-    "php": ">=5.6",
-    "datatypes/datatypes": "~1.0||~2.0",
-    "bluemvc/bluemvc-core": "~1.1"
+    "php": ">=7.1",
+    "datatypes/datatypes": "^1.0||^2.0",
+    "bluemvc/bluemvc-core": "^2.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "~5.5||~6.0||~7.0"
+    "phpunit/phpunit": "^5.5||^6.0||^7.0"
   },
   "autoload": {
     "psr-4": {

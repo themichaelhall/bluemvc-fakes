@@ -16,7 +16,7 @@ Fake core classes for the [BlueMvc PHP framework](https://github.com/themichaelh
 
 ## Requirements
 
-- PHP >= 5.6
+- PHP >= 7.1
 
 ## Install with Composer
 

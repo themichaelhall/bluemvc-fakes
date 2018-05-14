@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BlueMvc\Fakes\Tests\Collections;
 
 use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
@@ -31,19 +33,6 @@ class FakeSessionItemCollectionTest extends TestCase
     }
 
     /**
-     * Test get method with invalid name parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $name parameter is not a string.
-     */
-    public function testGetMethodWithInvalidNameParameterType()
-    {
-        $fakeSessionItemCollection = new FakeSessionItemCollection();
-
-        $fakeSessionItemCollection->get(true);
-    }
-
-    /**
      * Test set method.
      */
     public function testSet()
@@ -52,24 +41,13 @@ class FakeSessionItemCollectionTest extends TestCase
         $fakeSessionItemCollection->set('Foo', 'xxx');
         $fakeSessionItemCollection->set('bar', false);
         $fakeSessionItemCollection->set('foo', ['One' => 1, 'Two' => 2]);
+        $fakeSessionItemCollection->set('1', 2);
 
-        self::assertSame(3, count($fakeSessionItemCollection));
+        self::assertSame(4, count($fakeSessionItemCollection));
         self::assertSame('xxx', $fakeSessionItemCollection->get('Foo'));
         self::assertSame(false, $fakeSessionItemCollection->get('bar'));
         self::assertSame(['One' => 1, 'Two' => 2], $fakeSessionItemCollection->get('foo'));
-    }
-
-    /**
-     * Test set method with invalid name parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $name parameter is not a string.
-     */
-    public function testSetMethodWithInvalidNameParameterType()
-    {
-        $fakeSessionItemCollection = new FakeSessionItemCollection();
-
-        $fakeSessionItemCollection->set(10, 'Foo');
+        self::assertSame(2, $fakeSessionItemCollection->get('1'));
     }
 
     /**
@@ -85,19 +63,6 @@ class FakeSessionItemCollectionTest extends TestCase
         $fakeSessionItemCollection->remove('baz');
 
         self::assertSame(['bar' => false], iterator_to_array($fakeSessionItemCollection));
-    }
-
-    /**
-     * Test remove method with invalid name parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $name parameter is not a string.
-     */
-    public function testRemoveMethodWithInvalidNameParameterType()
-    {
-        $fakeSessionItemCollection = new FakeSessionItemCollection();
-
-        $fakeSessionItemCollection->remove(1.0);
     }
 
     /**
@@ -120,9 +85,10 @@ class FakeSessionItemCollectionTest extends TestCase
         $fakeSessionItemCollection = new FakeSessionItemCollection();
         $fakeSessionItemCollection->set('Foo', false);
         $fakeSessionItemCollection->set('Bar', 'Baz');
+        $fakeSessionItemCollection->set('1', 2);
 
         $sessionItemArray = iterator_to_array($fakeSessionItemCollection, true);
 
-        self::assertSame(['Foo' => false, 'Bar' => 'Baz'], $sessionItemArray);
+        self::assertSame(['Foo' => false, 'Bar' => 'Baz', 1 => 2], $sessionItemArray);
     }
 }

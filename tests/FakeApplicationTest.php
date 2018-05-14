@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BlueMvc\Fakes\Tests;
 
 use BlueMvc\Core\Collections\CustomItemCollection;
 use BlueMvc\Core\Exceptions\InvalidFilePathException;
 use BlueMvc\Core\Route;
-use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
 use BlueMvc\Fakes\FakeApplication;
 use BlueMvc\Fakes\Tests\Helpers\TestController;
 use BlueMvc\Fakes\Tests\Helpers\TestErrorController;
@@ -84,17 +85,6 @@ class FakeApplicationTest extends TestCase
         }
 
         self::assertSame('File path "' . $DS . 'var' . $DS . "\0" . 'www' . $DS . '" is invalid: Part of directory "' . "\0" . 'www" contains invalid character "' . "\0" . '".', $exceptionMessage);
-    }
-
-    /**
-     * Test constructor with invalid document root parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $documentRoot parameter is not a string or null.
-     */
-    public function testConstructorWithInvalidDocumentRootParameterType()
-    {
-        new FakeApplication(true);
     }
 
     /**
@@ -243,19 +233,6 @@ class FakeApplicationTest extends TestCase
     }
 
     /**
-     * Test setErrorControllerClass method with invalid parameter type.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage $errorControllerClass parameter is not a string.
-     */
-    public function testSetErrorControllerClassWithInvalidParameterType()
-    {
-        $fakeApplication = new FakeApplication();
-        /** @noinspection PhpParamsInspection */
-        $fakeApplication->setErrorControllerClass([]);
-    }
-
-    /**
      * Test setErrorControllerClass method with non-existing class name.
      *
      * @expectedException \BlueMvc\Core\Exceptions\InvalidControllerClassException
@@ -289,74 +266,6 @@ class FakeApplicationTest extends TestCase
     {
         $fakeApplication = new FakeApplication();
         $fakeApplication->setErrorControllerClass(TestController::class);
-    }
-
-    /**
-     * Test getSessionItems method.
-     */
-    public function testGetSessionItems()
-    {
-        $fakeApplication = new FakeApplication();
-
-        self::assertSame([], iterator_to_array($fakeApplication->getSessionItems()));
-    }
-
-    /**
-     * Test setSessionItem method.
-     */
-    public function testSetSessionItem()
-    {
-        $fakeApplication = new FakeApplication();
-        $fakeApplication->setSessionItem('Foo', ['Bar', 'Baz']);
-        $fakeApplication->setSessionItem('Bar', 12345);
-
-        self::assertSame(['Foo' => ['Bar', 'Baz'], 'Bar' => 12345], iterator_to_array($fakeApplication->getSessionItems()));
-    }
-
-    /**
-     * Test getSessionItem method.
-     */
-    public function testGetSessionItem()
-    {
-        $fakeApplication = new FakeApplication();
-        $fakeApplication->setSessionItem('Foo', 1);
-        $fakeApplication->setSessionItem('Bar', 2);
-
-        self::assertSame(1, $fakeApplication->getSessionItem('Foo'));
-        self::assertSame(2, $fakeApplication->getSessionItem('Bar'));
-        self::assertNull($fakeApplication->getSessionItem('Baz'));
-        self::assertNull($fakeApplication->getSessionItem('foo'));
-    }
-
-    /**
-     * Test removeSessionItem method.
-     */
-    public function testRemoveSessionItem()
-    {
-        $fakeApplication = new FakeApplication();
-        $fakeApplication->setSessionItem('Foo', 1);
-        $fakeApplication->setSessionItem('Bar', 2);
-        $fakeApplication->removeSessionItem('Foo');
-        $fakeApplication->removeSessionItem('Baz');
-
-        self::assertNull($fakeApplication->getSessionItem('Foo'));
-        self::assertSame(2, $fakeApplication->getSessionItem('Bar'));
-        self::assertNull($fakeApplication->getSessionItem('Baz'));
-    }
-
-    /**
-     * Test setSessionItems method.
-     */
-    public function testSetSessionItems()
-    {
-        $sessionItems = new FakeSessionItemCollection();
-        $sessionItems->set('Foo', 1);
-        $sessionItems->set('Bar', 2);
-
-        $fakeApplication = new FakeApplication();
-        $fakeApplication->setSessionItems($sessionItems);
-
-        self::assertSame(['Foo' => 1, 'Bar' => 2], iterator_to_array($fakeApplication->getSessionItems()));
     }
 
     /**

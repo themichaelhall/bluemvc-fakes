@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BlueMvc\Fakes\Tests\Helpers;
 
 use BlueMvc\Core\ActionResults\ForbiddenResult;
@@ -95,6 +97,28 @@ class TestController extends Controller
     public function nullAction()
     {
         return null;
+    }
+
+    /**
+     * Action that sets a session item and returns the current session items.
+     *
+     * @return string The result.
+     */
+    public function sessionAction()
+    {
+        if ($this->getRequest()->getMethod()->isPost()) {
+            $this->getRequest()->setSessionItem(
+                $this->getRequest()->getFormParameter('Name'),
+                $this->getRequest()->getFormParameter('Value')
+            );
+        }
+
+        $result = [];
+        foreach ($this->getRequest()->getSessionItems() as $itemKey => $itemValue) {
+            $result[] = $itemKey . '=' . $itemValue;
+        }
+
+        return implode(',', $result);
     }
 
     /**
