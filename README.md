@@ -6,7 +6,6 @@
 
 [![Build Status](https://travis-ci.org/themichaelhall/bluemvc-fakes.svg?branch=master)](https://travis-ci.org/themichaelhall/bluemvc-fakes)
 [![codecov.io](https://codecov.io/gh/themichaelhall/bluemvc-fakes/coverage.svg?branch=master)](https://codecov.io/gh/themichaelhall/bluemvc-fakes?branch=master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/1387755f3ef90b3296a0/maintainability)](https://codeclimate.com/github/themichaelhall/bluemvc-fakes/maintainability)
 [![StyleCI](https://styleci.io/repos/67921953/shield?style=flat)](https://styleci.io/repos/67921953)
 [![License](https://poser.pugx.org/bluemvc/bluemvc-fakes/license)](https://packagist.org/packages/bluemvc/bluemvc-fakes)
 [![Latest Stable Version](https://poser.pugx.org/bluemvc/bluemvc-fakes/v/stable)](https://packagist.org/packages/bluemvc/bluemvc-fakes)
