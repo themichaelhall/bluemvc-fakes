@@ -1,4 +1,5 @@
 ## Unreleased
+- Added setUrl method to FakeRequest.
 
 ## [2.0.0] - 2018-05-14
 - **Backward compatibility break**: Moved session handling from FakeApplication to FakeRequest.

@@ -12,6 +12,7 @@ use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
 use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
 use BlueMvc\Fakes\FakeRequest;
 use DataTypes\IPAddress;
+use DataTypes\Url;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -469,5 +470,18 @@ class FakeRequestTest extends TestCase
         $fakeRequest->setSessionItems($sessionItems);
 
         self::assertSame(['Foo' => 1, 'Bar' => 2], iterator_to_array($fakeRequest->getSessionItems()));
+    }
+
+    /**
+     * Test setUrl method.
+     */
+    public function testSetUrl()
+    {
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setUrl(Url::parse('https://example.com:8080/foo/bar'));
+
+        self::assertSame('https://example.com:8080/foo/bar', $fakeRequest->getUrl()->__toString());
+        self::assertSame('GET', $fakeRequest->getMethod()->__toString());
+        self::assertSame(['Host' => 'example.com:8080'], iterator_to_array($fakeRequest->getHeaders()));
     }
 }

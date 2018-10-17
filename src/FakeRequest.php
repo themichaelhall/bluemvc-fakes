@@ -56,7 +56,7 @@ class FakeRequest extends AbstractRequest
         parent::__construct(
             $url,
             $method,
-            self::parseHeaders($url),
+            new HeaderCollection(),
             self::parseQueryParameters($url->getQueryString()),
             new ParameterCollection(),
             new UploadedFileCollection(),
@@ -64,6 +64,7 @@ class FakeRequest extends AbstractRequest
             new FakeSessionItemCollection()
         );
 
+        $this->updateHeadersFromUrl($url);
         $this->setClientIp(IPAddress::fromParts([127, 0, 0, 1]));
     }
 
@@ -192,6 +193,20 @@ class FakeRequest extends AbstractRequest
     }
 
     /**
+     * Sets the url.
+     *
+     * @since 2.1.0
+     *
+     * @param UrlInterface $url The url.
+     */
+    public function setUrl(UrlInterface $url): void
+    {
+        parent::setUrl($url);
+
+        $this->updateHeadersFromUrl($url);
+    }
+
+    /**
      * Uploads a file.
      *
      * @since 1.0.0
@@ -235,18 +250,13 @@ class FakeRequest extends AbstractRequest
     }
 
     /**
-     * Parses a url into a header collection.
+     * Updates headers from url.
      *
      * @param UrlInterface $url The url.
-     *
-     * @return HeaderCollectionInterface The header collection.
      */
-    private static function parseHeaders(UrlInterface $url): HeaderCollectionInterface
+    private function updateHeadersFromUrl(UrlInterface $url): void
     {
-        $result = new HeaderCollection();
-        $result->set('Host', $url->getHostAndPort());
-
-        return $result;
+        $this->setHeader('Host', $url->getHostAndPort());
     }
 
     /**
