@@ -7,6 +7,7 @@ namespace BlueMvc\Fakes\Tests;
 use BlueMvc\Core\Collections\HeaderCollection;
 use BlueMvc\Core\Collections\ParameterCollection;
 use BlueMvc\Core\Collections\RequestCookieCollection;
+use BlueMvc\Core\Http\Method;
 use BlueMvc\Core\RequestCookie;
 use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
 use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
@@ -483,5 +484,18 @@ class FakeRequestTest extends TestCase
         self::assertSame('https://example.com:8080/foo/bar', $fakeRequest->getUrl()->__toString());
         self::assertSame('GET', $fakeRequest->getMethod()->__toString());
         self::assertSame(['Host' => 'example.com:8080'], iterator_to_array($fakeRequest->getHeaders()));
+    }
+
+    /**
+     * Test setMethod method.
+     */
+    public function testSetMethod()
+    {
+        $fakeRequest = new FakeRequest();
+        $fakeRequest->setMethod(new Method('PUT'));
+
+        self::assertSame('http://localhost/', $fakeRequest->getUrl()->__toString());
+        self::assertSame('PUT', $fakeRequest->getMethod()->__toString());
+        self::assertSame(['Host' => 'localhost'], iterator_to_array($fakeRequest->getHeaders()));
     }
 }

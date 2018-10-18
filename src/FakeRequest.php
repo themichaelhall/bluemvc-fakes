@@ -19,6 +19,7 @@ use BlueMvc\Core\Interfaces\Collections\HeaderCollectionInterface;
 use BlueMvc\Core\Interfaces\Collections\ParameterCollectionInterface;
 use BlueMvc\Core\Interfaces\Collections\RequestCookieCollectionInterface;
 use BlueMvc\Core\Interfaces\Collections\SessionItemCollectionInterface;
+use BlueMvc\Core\Interfaces\Http\MethodInterface;
 use BlueMvc\Core\Interfaces\RequestCookieInterface;
 use BlueMvc\Core\UploadedFile;
 use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
@@ -166,6 +167,18 @@ class FakeRequest extends AbstractRequest
     public function setHeaders(HeaderCollectionInterface $headers): void
     {
         parent::setHeaders($headers);
+    }
+
+    /**
+     * Sets the method.
+     *
+     * @since 2.1.0
+     *
+     * @param MethodInterface $method The method.
+     */
+    public function setMethod(MethodInterface $method): void
+    {
+        parent::setMethod($method);
     }
 
     /**
