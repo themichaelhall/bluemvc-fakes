@@ -236,6 +236,8 @@ class RoutingTest extends TestCase
      */
     public function setUp()
     {
+        parent::setUp();
+
         $this->application = new FakeApplication();
         $this->application->setViewPath(FilePath::parse(__DIR__ . '/Helpers/Views/'));
         $this->application->addViewRenderer(new TestViewRenderer());
@@ -247,6 +249,8 @@ class RoutingTest extends TestCase
      */
     public function tearDown()
     {
+        parent::tearDown();
+
         $this->application = null;
     }
 
