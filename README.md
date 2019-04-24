@@ -28,7 +28,7 @@ $ composer require bluemvc/bluemvc-fakes
 
 The official documentation is located at [bluemvc.com](https://bluemvc.com/)
 
-- [Get started](https://bluemvc.com/get-started/)
+- [Get started](https://bluemvc.com/tutorials/get-started/)
 
 ## License
 
