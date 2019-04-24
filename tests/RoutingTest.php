@@ -164,8 +164,8 @@ class RoutingTest extends TestCase
         $response = new FakeResponse();
         $this->application->run($request, $response);
 
-        self::assertContains('<h1>Throwing exception!</h1>', $response->getContent());
-        self::assertContains('<code>DomainException</code>', $response->getContent());
+        self::assertStringContainsString('<h1>Throwing exception!</h1>', $response->getContent());
+        self::assertStringContainsString('<code>DomainException</code>', $response->getContent());
         self::assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
     }
 
@@ -234,7 +234,7 @@ class RoutingTest extends TestCase
     /**
      * Set up.
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -247,7 +247,7 @@ class RoutingTest extends TestCase
     /**
      * Tear down.
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
