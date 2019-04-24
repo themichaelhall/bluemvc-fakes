@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BlueMvc\Fakes\Tests;
 
 use BlueMvc\Core\Collections\CustomItemCollection;
+use BlueMvc\Core\Exceptions\InvalidControllerClassException;
 use BlueMvc\Core\Exceptions\InvalidFilePathException;
 use BlueMvc\Core\Route;
 use BlueMvc\Fakes\FakeApplication;
@@ -234,36 +235,36 @@ class FakeApplicationTest extends TestCase
 
     /**
      * Test setErrorControllerClass method with non-existing class name.
-     *
-     * @expectedException \BlueMvc\Core\Exceptions\InvalidControllerClassException
-     * @expectedExceptionMessage "\BlueMvc\Fakes\Foo" is not a valid error controller class.
      */
     public function testSetErrorControllerClassWithNonExistingClassName()
     {
+        self::expectException(InvalidControllerClassException::class);
+        self::expectExceptionMessage('"\BlueMvc\Fakes\Foo" is not a valid error controller class.');
+
         $fakeApplication = new FakeApplication();
         $fakeApplication->setErrorControllerClass('\\BlueMvc\\Fakes\\Foo');
     }
 
     /**
      * Test setErrorControllerClass method with non-controller class name.
-     *
-     * @expectedException \BlueMvc\Core\Exceptions\InvalidControllerClassException
-     * @expectedExceptionMessage "BlueMvc\Fakes\FakeApplication" is not a valid error controller class.
      */
     public function testSetErrorControllerWithNonControllerClassName()
     {
+        self::expectException(InvalidControllerClassException::class);
+        self::expectExceptionMessage('"BlueMvc\Fakes\FakeApplication" is not a valid error controller class.');
+
         $fakeApplication = new FakeApplication();
         $fakeApplication->setErrorControllerClass(FakeApplication::class);
     }
 
     /**
      * Test setErrorControllerClass method with ordinary controller class name.
-     *
-     * @expectedException \BlueMvc\Core\Exceptions\InvalidControllerClassException
-     * @expectedExceptionMessage "BlueMvc\Fakes\Tests\Helpers\TestController" is not a valid error controller class.
      */
     public function testSetErrorControllerWithOrdinaryControllerClassName()
     {
+        self::expectException(InvalidControllerClassException::class);
+        self::expectExceptionMessage('"BlueMvc\Fakes\Tests\Helpers\TestController" is not a valid error controller class.');
+
         $fakeApplication = new FakeApplication();
         $fakeApplication->setErrorControllerClass(TestController::class);
     }

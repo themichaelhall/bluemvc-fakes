@@ -7,11 +7,13 @@ namespace BlueMvc\Fakes\Tests;
 use BlueMvc\Core\Collections\HeaderCollection;
 use BlueMvc\Core\Collections\ParameterCollection;
 use BlueMvc\Core\Collections\RequestCookieCollection;
+use BlueMvc\Core\Exceptions\Http\InvalidMethodNameException;
 use BlueMvc\Core\Http\Method;
 use BlueMvc\Core\RequestCookie;
 use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
 use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
 use BlueMvc\Fakes\FakeRequest;
+use DataTypes\Exceptions\UrlPathLogicException;
 use DataTypes\IPAddress;
 use DataTypes\Url;
 use PHPUnit\Framework\TestCase;
@@ -67,23 +69,23 @@ class FakeRequestTest extends TestCase
 
     /**
      * Test constructor with invalid url.
-     *
-     * @expectedException \DataTypes\Exceptions\UrlPathLogicException
-     * @expectedExceptionMessage Url path "/" can not be combined with url path "../foo": Absolute path is above root level.
      */
     public function testConstructorWithInvalidUrl()
     {
+        self::expectException(UrlPathLogicException::class);
+        self::expectExceptionMessage('Url path "/" can not be combined with url path "../foo": Absolute path is above root level.');
+
         new FakeRequest('../foo');
     }
 
     /**
      * Test constructor with invalid method.
-     *
-     * @expectedException \BlueMvc\Core\Exceptions\Http\InvalidMethodNameException
-     * @expectedExceptionMessage Method "(FOO)" contains invalid character "(".
      */
     public function testConstructorWithInvalidMethod()
     {
+        self::expectException(InvalidMethodNameException::class);
+        self::expectExceptionMessage('Method "(FOO)" contains invalid character "(".');
+
         new FakeRequest('http://localhost/foo/bar', '(FOO)');
     }
 
