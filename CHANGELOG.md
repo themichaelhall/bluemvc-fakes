@@ -1,3 +1,5 @@
+## Unreleased
+
 ## [2.1.0] - 2019-06-13
 - Added setUrl method to FakeRequest.
 - Added setMethod method to FakeRequest.
