@@ -1,4 +1,4 @@
-## Unreleased
+## [2.1.0] - 2019-06-13
 - Added setUrl method to FakeRequest.
 - Added setMethod method to FakeRequest.
 
@@ -12,5 +12,6 @@
 ## 1.0.0 - 2018-02-03
 - First stable revision.
 
+[2.1.0]: https://github.com/themichaelhall/bluemvc-fakes/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/themichaelhall/bluemvc-fakes/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/themichaelhall/bluemvc-fakes/compare/v1.0.0...v1.1.0
