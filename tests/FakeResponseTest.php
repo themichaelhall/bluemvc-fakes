@@ -11,6 +11,9 @@ use BlueMvc\Core\ResponseCookie;
 use BlueMvc\Fakes\FakeResponse;
 use DataTypes\Host;
 use DataTypes\UrlPath;
+use DateInterval;
+use DateTimeImmutable;
+use DateTimeZone;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -137,10 +140,10 @@ class FakeResponseTest extends TestCase
     public function testSetExpiry()
     {
         $response = new FakeResponse();
-        $expiry = (new \DateTimeImmutable())->add(new \DateInterval('PT24H'));
+        $expiry = (new DateTimeImmutable())->add(new DateInterval('PT24H'));
         $response->setExpiry($expiry);
 
-        self::assertSame($expiry->setTimezone(new \DateTimeZone('UTC'))->format('D, d M Y H:i:s \G\M\T'), $response->getHeader('Expires'));
+        self::assertSame($expiry->setTimezone(new DateTimeZone('UTC'))->format('D, d M Y H:i:s \G\M\T'), $response->getHeader('Expires'));
         self::assertSame('public, max-age=86400', $response->getHeader('Cache-Control'));
     }
 
@@ -161,7 +164,7 @@ class FakeResponseTest extends TestCase
     {
         $response = new FakeResponse();
         $cookies = new ResponseCookieCollection();
-        $fooCookie = new ResponseCookie('aaa', new \DateTimeImmutable(), UrlPath::parse('/baz/'), Host::parse('www.example.com'), true, true);
+        $fooCookie = new ResponseCookie('aaa', new DateTimeImmutable(), UrlPath::parse('/baz/'), Host::parse('www.example.com'), true, true);
         $cookies->set('foo', $fooCookie);
         $barCookie = new ResponseCookie('bbb');
         $cookies->set('bar', $barCookie);
@@ -177,7 +180,7 @@ class FakeResponseTest extends TestCase
     {
         $response = new FakeResponse();
         $cookies = new ResponseCookieCollection();
-        $fooCookie = new ResponseCookie('aaa', new \DateTimeImmutable(), UrlPath::parse('/baz/'), Host::parse('www.example.com'), true, true);
+        $fooCookie = new ResponseCookie('aaa', new DateTimeImmutable(), UrlPath::parse('/baz/'), Host::parse('www.example.com'), true, true);
         $cookies->set('foo', $fooCookie);
         $response->setCookies($cookies);
 
@@ -192,7 +195,7 @@ class FakeResponseTest extends TestCase
     public function testSetCookie()
     {
         $response = new FakeResponse();
-        $fooCookie = new ResponseCookie('aaa', new \DateTimeImmutable(), UrlPath::parse('/baz/'), Host::parse('www.example.com'), true, true);
+        $fooCookie = new ResponseCookie('aaa', new DateTimeImmutable(), UrlPath::parse('/baz/'), Host::parse('www.example.com'), true, true);
         $response->setCookie('foo', $fooCookie);
 
         self::assertSame(['foo' => $fooCookie], iterator_to_array($response->getCookies()));

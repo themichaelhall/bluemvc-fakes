@@ -9,6 +9,7 @@ use BlueMvc\Core\ActionResults\JsonResult;
 use BlueMvc\Core\ActionResults\PermanentRedirectResult;
 use BlueMvc\Core\Controller;
 use BlueMvc\Core\View;
+use DomainException;
 
 /**
  * A test controller.
@@ -72,11 +73,11 @@ class TestController extends Controller
     /**
      * Action throwing exception.
      *
-     * @throws \DomainException The exception.
+     * @throws DomainException The exception.
      */
     public function exceptionAction()
     {
-        throw new \DomainException('Throwing exception!');
+        throw new DomainException('Throwing exception!');
     }
 
     /**

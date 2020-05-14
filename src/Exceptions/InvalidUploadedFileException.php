@@ -8,11 +8,13 @@ declare(strict_types=1);
 
 namespace BlueMvc\Fakes\Exceptions;
 
+use Exception;
+
 /**
  * Exception used when passed an invalid uploaded file name.
  *
  * @since 1.0.0
  */
-class InvalidUploadedFileException extends \Exception
+class InvalidUploadedFileException extends Exception
 {
 }

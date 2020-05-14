@@ -49,7 +49,9 @@ class TestViewRenderer extends AbstractViewRenderer
                 $viewItems !== null ? implode(',', iterator_to_array($viewItems)) : '',
                 $request->getUrl(),
                 $application->getTempPath(),
-            ], $fileContent);
+            ],
+            $fileContent
+        );
 
         return $result;
     }
