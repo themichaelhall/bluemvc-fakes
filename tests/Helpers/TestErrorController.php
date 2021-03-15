@@ -19,7 +19,7 @@ class TestErrorController extends ErrorController
      *
      * @return View The view.
      */
-    public function defaultAction($statusCode)
+    public function defaultAction(string $statusCode): View
     {
         return new View($statusCode);
     }

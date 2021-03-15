@@ -21,7 +21,7 @@ class TestController extends Controller
      *
      * @return string The result.
      */
-    public function indexAction()
+    public function indexAction(): string
     {
         return 'Hello World!';
     }
@@ -31,7 +31,7 @@ class TestController extends Controller
      *
      * @return View The result.
      */
-    public function viewAction()
+    public function viewAction(): View
     {
         $this->setViewItem('Foo', 'Bar');
 
@@ -43,7 +43,7 @@ class TestController extends Controller
      *
      * @return View The result.
      */
-    public function customViewAction()
+    public function customViewAction(): View
     {
         $this->setViewItem('Foo', 'Bar');
 
@@ -55,7 +55,7 @@ class TestController extends Controller
      *
      * @return PermanentRedirectResult The result.
      */
-    public function actionResultAction()
+    public function actionResultAction(): PermanentRedirectResult
     {
         return new PermanentRedirectResult('https://localhost/');
     }
@@ -65,7 +65,7 @@ class TestController extends Controller
      *
      * @return JsonResult The result.
      */
-    public function jsonResultAction()
+    public function jsonResultAction(): JsonResult
     {
         return new JsonResult(['Foo' => 'Bar']);
     }
@@ -85,7 +85,7 @@ class TestController extends Controller
      *
      * @return float The result.
      */
-    public function scalarAction()
+    public function scalarAction(): float
     {
         return 12.5;
     }
@@ -105,7 +105,7 @@ class TestController extends Controller
      *
      * @return string The result.
      */
-    public function sessionAction()
+    public function sessionAction(): string
     {
         if ($this->getRequest()->getMethod()->isPost()) {
             $this->getRequest()->setSessionItem(
@@ -127,7 +127,7 @@ class TestController extends Controller
      *
      * @return string|null The result.
      */
-    protected function onPreActionEvent()
+    protected function onPreActionEvent(): ?string
     {
         parent::onPreActionEvent();
 
@@ -143,7 +143,7 @@ class TestController extends Controller
      *
      * @return ForbiddenResult|null The result.
      */
-    protected function onPostActionEvent()
+    protected function onPostActionEvent(): ?ForbiddenResult
     {
         parent::onPostActionEvent();
 
