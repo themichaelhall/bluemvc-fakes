@@ -264,9 +264,9 @@ class FakeRequestTest extends TestCase
         self::assertSame(['foo' => $uploadedFile], iterator_to_array($fakeRequest->getUploadedFiles()));
         self::assertNotSame($uploadedFilePath, $uploadedFile->getPath()->__toString());
         self::assertFileExists($uploadedFile->getPath()->__toString());
-        self::assertSame('Hello World!', file_get_contents($uploadedFile->getPath()->__toString()));
+        self::assertSame("Hello World!\n", file_get_contents($uploadedFile->getPath()->__toString()));
         self::assertSame($uploadedFilePath, $uploadedFile->getOriginalName());
-        self::assertSame(12, $uploadedFile->getSize());
+        self::assertSame(13, $uploadedFile->getSize());
     }
 
     /**

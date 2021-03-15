@@ -42,7 +42,7 @@ class RoutingTest extends TestCase
         $response = new FakeResponse();
         $this->application->run($request, $response);
 
-        self::assertSame('ViewData=Bar, Model=Baz, Url=http://localhost/view, TempDir=' . $this->application->getTempPath(), $response->getContent());
+        self::assertSame('ViewData=Bar, Model=Baz, Url=http://localhost/view, TempDir=' . $this->application->getTempPath() . "\n", $response->getContent());
         self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
     }
 
@@ -55,7 +55,7 @@ class RoutingTest extends TestCase
         $response = new FakeResponse();
         $this->application->run($request, $response);
 
-        self::assertSame('Custom view, ViewData=Bar, Model=Baz, Url=http://localhost/customView, TempDir=' . $this->application->getTempPath(), $response->getContent());
+        self::assertSame('Custom view, ViewData=Bar, Model=Baz, Url=http://localhost/customView, TempDir=' . $this->application->getTempPath() . "\n", $response->getContent());
         self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
     }
 
@@ -179,7 +179,7 @@ class RoutingTest extends TestCase
         $response = new FakeResponse();
         $this->application->run($request, $response);
 
-        self::assertSame('StatusCode=500', $response->getContent());
+        self::assertSame("StatusCode=500\n", $response->getContent());
         self::assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
     }
 
