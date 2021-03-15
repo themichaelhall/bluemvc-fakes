@@ -4,8 +4,7 @@
 
 # BlueMvc Fakes
 
-[![Build Status](https://travis-ci.org/themichaelhall/bluemvc-fakes.svg?branch=master)](https://travis-ci.org/themichaelhall/bluemvc-fakes)
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/themichaelhall/bluemvc-fakes?branch=master&svg=true)](https://ci.appveyor.com/project/themichaelhall/bluemvc-fakes/branch/master)
+[![Tests](https://github.com/themichaelhall/bluemvc-fakes/workflows/tests/badge.svg?branch=master)](https://github.com/themichaelhall/bluemvc-fakes/actions)
 [![codecov.io](https://codecov.io/gh/themichaelhall/bluemvc-fakes/coverage.svg?branch=master)](https://codecov.io/gh/themichaelhall/bluemvc-fakes?branch=master)
 [![StyleCI](https://styleci.io/repos/67921953/shield?style=flat)](https://styleci.io/repos/67921953)
 [![License](https://poser.pugx.org/bluemvc/bluemvc-fakes/license)](https://packagist.org/packages/bluemvc/bluemvc-fakes)
