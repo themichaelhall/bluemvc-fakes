@@ -260,13 +260,14 @@ class FakeRequestTest extends TestCase
         $fakeRequest = new FakeRequest('/', 'POST');
         $fakeRequest->uploadFile('foo', $uploadedFilePath);
         $uploadedFile = $fakeRequest->getUploadedFile('foo');
+        $uploadedFileContent = file_get_contents($uploadedFile->getPath()->__toString());
 
         self::assertSame(['foo' => $uploadedFile], iterator_to_array($fakeRequest->getUploadedFiles()));
         self::assertNotSame($uploadedFilePath, $uploadedFile->getPath()->__toString());
         self::assertFileExists($uploadedFile->getPath()->__toString());
-        self::assertSame("Hello World!\n", file_get_contents($uploadedFile->getPath()->__toString()));
+        self::assertSame("Hello World!\n", self::normalizeEndOfLine($uploadedFileContent));
         self::assertSame($uploadedFilePath, $uploadedFile->getOriginalName());
-        self::assertSame(13, $uploadedFile->getSize());
+        self::assertSame(strlen($uploadedFileContent), $uploadedFile->getSize());
     }
 
     /**
@@ -499,5 +500,17 @@ class FakeRequestTest extends TestCase
         self::assertSame('http://localhost/', $fakeRequest->getUrl()->__toString());
         self::assertSame('PUT', $fakeRequest->getMethod()->__toString());
         self::assertSame(['Host' => 'localhost'], iterator_to_array($fakeRequest->getHeaders()));
+    }
+
+    /**
+     * Normalizes the end of line character(s) to \n, so tests will pass, event if the newline(s) in tests files are converted, e.g. by Git.
+     *
+     * @param string $s
+     *
+     * @return string
+     */
+    private static function normalizeEndOfLine(string $s): string
+    {
+        return str_replace("\r\n", "\n", $s);
     }
 }

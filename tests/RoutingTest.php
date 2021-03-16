@@ -42,7 +42,7 @@ class RoutingTest extends TestCase
         $response = new FakeResponse();
         $this->application->run($request, $response);
 
-        self::assertSame('ViewData=Bar, Model=Baz, Url=http://localhost/view, TempDir=' . $this->application->getTempPath() . "\n", $response->getContent());
+        self::assertSame('ViewData=Bar, Model=Baz, Url=http://localhost/view, TempDir=' . $this->application->getTempPath() . "\n", self::normalizeEndOfLine($response->getContent()));
         self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
     }
 
@@ -55,7 +55,7 @@ class RoutingTest extends TestCase
         $response = new FakeResponse();
         $this->application->run($request, $response);
 
-        self::assertSame('Custom view, ViewData=Bar, Model=Baz, Url=http://localhost/customView, TempDir=' . $this->application->getTempPath() . "\n", $response->getContent());
+        self::assertSame('Custom view, ViewData=Bar, Model=Baz, Url=http://localhost/customView, TempDir=' . $this->application->getTempPath() . "\n", self::normalizeEndOfLine($response->getContent()));
         self::assertSame(StatusCode::OK, $response->getStatusCode()->getCode());
     }
 
@@ -179,7 +179,7 @@ class RoutingTest extends TestCase
         $response = new FakeResponse();
         $this->application->run($request, $response);
 
-        self::assertSame("StatusCode=500\n", $response->getContent());
+        self::assertSame("StatusCode=500\n", self::normalizeEndOfLine($response->getContent()));
         self::assertSame(StatusCode::INTERNAL_SERVER_ERROR, $response->getStatusCode()->getCode());
     }
 
@@ -252,6 +252,18 @@ class RoutingTest extends TestCase
         parent::tearDown();
 
         $this->application = null;
+    }
+
+    /**
+     * Normalizes the end of line character(s) to \n, so tests will pass, event if the newline(s) in tests files are converted, e.g. by Git.
+     *
+     * @param string $s
+     *
+     * @return string
+     */
+    private static function normalizeEndOfLine(string $s): string
+    {
+        return str_replace("\r\n", "\n", $s);
     }
 
     /**
