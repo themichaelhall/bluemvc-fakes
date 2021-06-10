@@ -12,8 +12,8 @@ use BlueMvc\Fakes\FakeApplication;
 use BlueMvc\Fakes\Tests\Helpers\TestController;
 use BlueMvc\Fakes\Tests\Helpers\TestErrorController;
 use BlueMvc\Fakes\Tests\Helpers\TestViewRenderer;
-use DataTypes\Exceptions\FilePathInvalidArgumentException;
-use DataTypes\FilePath;
+use DataTypes\System\Exceptions\FilePathInvalidArgumentException;
+use DataTypes\System\FilePath;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -140,7 +140,7 @@ class FakeApplicationTest extends TestCase
     {
         $DS = DIRECTORY_SEPARATOR;
         $fakeApplication = new FakeApplication($DS . 'var' . $DS . 'www' . $DS);
-        $fakeApplication->setViewPath(FilePath::parse('views/'));
+        $fakeApplication->setViewPath(FilePath::parseAsDirectory('views'));
 
         self::assertSame($DS . 'var' . $DS . 'www' . $DS . 'views' . $DS, $fakeApplication->getViewPath()->__toString());
     }
@@ -163,7 +163,7 @@ class FakeApplicationTest extends TestCase
     {
         $DS = DIRECTORY_SEPARATOR;
         $fakeApplication = new FakeApplication($DS . 'var' . $DS . 'www' . $DS);
-        $fakeApplication->setTempPath(FilePath::parse('temp/'));
+        $fakeApplication->setTempPath(FilePath::parseAsDirectory('temp'));
 
         self::assertSame($DS . 'var' . $DS . 'www' . $DS . 'temp' . $DS, $fakeApplication->getTempPath()->__toString());
     }

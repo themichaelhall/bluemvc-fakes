@@ -12,8 +12,8 @@ namespace BlueMvc\Fakes;
 
 use BlueMvc\Core\Base\AbstractApplication;
 use BlueMvc\Core\Exceptions\InvalidFilePathException;
-use DataTypes\Exceptions\FilePathInvalidArgumentException;
-use DataTypes\FilePath;
+use DataTypes\System\Exceptions\FilePathInvalidArgumentException;
+use DataTypes\System\FilePath;
 
 /**
  * BlueMvc fake application.

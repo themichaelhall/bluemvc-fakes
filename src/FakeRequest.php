@@ -26,12 +26,12 @@ use BlueMvc\Core\Interfaces\RequestCookieInterface;
 use BlueMvc\Core\UploadedFile;
 use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
 use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
-use DataTypes\Exceptions\UrlInvalidArgumentException;
-use DataTypes\FilePath;
-use DataTypes\Interfaces\IPAddressInterface;
-use DataTypes\Interfaces\UrlInterface;
-use DataTypes\IPAddress;
-use DataTypes\Url;
+use DataTypes\Net\Exceptions\UrlInvalidArgumentException;
+use DataTypes\Net\IPAddress;
+use DataTypes\Net\IPAddressInterface;
+use DataTypes\Net\Url;
+use DataTypes\Net\UrlInterface;
+use DataTypes\System\FilePath;
 
 /**
  * BlueMvc fake request class.

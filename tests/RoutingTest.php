@@ -12,7 +12,7 @@ use BlueMvc\Fakes\FakeResponse;
 use BlueMvc\Fakes\Tests\Helpers\TestController;
 use BlueMvc\Fakes\Tests\Helpers\TestErrorController;
 use BlueMvc\Fakes\Tests\Helpers\TestViewRenderer;
-use DataTypes\FilePath;
+use DataTypes\System\FilePath;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -239,7 +239,7 @@ class RoutingTest extends TestCase
         parent::setUp();
 
         $this->application = new FakeApplication();
-        $this->application->setViewPath(FilePath::parse(__DIR__ . '/Helpers/Views/'));
+        $this->application->setViewPath(FilePath::parseAsDirectory(__DIR__ . '/Helpers/Views'));
         $this->application->addViewRenderer(new TestViewRenderer());
         $this->application->addRoute(new Route('', TestController::class));
     }

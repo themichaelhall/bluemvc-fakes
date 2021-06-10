@@ -13,9 +13,9 @@ use BlueMvc\Core\RequestCookie;
 use BlueMvc\Fakes\Collections\FakeSessionItemCollection;
 use BlueMvc\Fakes\Exceptions\InvalidUploadedFileException;
 use BlueMvc\Fakes\FakeRequest;
-use DataTypes\Exceptions\UrlPathLogicException;
-use DataTypes\IPAddress;
-use DataTypes\Url;
+use DataTypes\Net\Exceptions\UrlPathLogicException;
+use DataTypes\Net\IPAddress;
+use DataTypes\Net\Url;
 use PHPUnit\Framework\TestCase;
 
 /**
