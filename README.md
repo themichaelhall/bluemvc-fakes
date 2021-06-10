@@ -5,7 +5,6 @@
 # BlueMvc Fakes
 
 [![Tests](https://github.com/themichaelhall/bluemvc-fakes/workflows/tests/badge.svg?branch=master)](https://github.com/themichaelhall/bluemvc-fakes/actions)
-[![codecov.io](https://codecov.io/gh/themichaelhall/bluemvc-fakes/coverage.svg?branch=master)](https://codecov.io/gh/themichaelhall/bluemvc-fakes?branch=master)
 [![StyleCI](https://styleci.io/repos/67921953/shield?style=flat)](https://styleci.io/repos/67921953)
 [![License](https://poser.pugx.org/bluemvc/bluemvc-fakes/license)](https://packagist.org/packages/bluemvc/bluemvc-fakes)
 [![Latest Stable Version](https://poser.pugx.org/bluemvc/bluemvc-fakes/v/stable)](https://packagist.org/packages/bluemvc/bluemvc-fakes)
