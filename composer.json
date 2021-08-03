@@ -1,6 +1,6 @@
 {
   "name": "bluemvc/bluemvc-fakes",
-  "description": "Fake core classes for the BlueMvc PHP framework",
+  "description": "Test-friendly fake core classes for the BlueMvc PHP framework",
   "homepage": "https://bluemvc.com/",
   "license": "MIT",
   "type": "library",

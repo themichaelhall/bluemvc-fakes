@@ -10,7 +10,7 @@
 [![Latest Stable Version](https://poser.pugx.org/bluemvc/bluemvc-fakes/v/stable)](https://packagist.org/packages/bluemvc/bluemvc-fakes)
 [![Total Downloads](https://poser.pugx.org/bluemvc/bluemvc-fakes/downloads)](https://packagist.org/packages/bluemvc/bluemvc-fakes)
 
-Fake core classes for the [BlueMvc PHP framework](https://github.com/themichaelhall/bluemvc).
+Test-friendly fake core classes for the [BlueMvc PHP framework](https://github.com/themichaelhall/bluemvc).
 
 ## Requirements
 
