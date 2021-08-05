@@ -135,15 +135,15 @@ class FakeResponseTest extends TestCase
     }
 
     /**
-     * Test setExpiry method.
+     * Test setExpiryDateTime method.
      */
-    public function testSetExpiry()
+    public function testSetExpiryDateTime()
     {
         $response = new FakeResponse();
-        $expiry = (new DateTimeImmutable())->add(new DateInterval('PT24H'));
-        $response->setExpiry($expiry);
+        $expiryDateTime = (new DateTimeImmutable())->add(new DateInterval('PT24H'));
+        $response->setExpiryDateTime($expiryDateTime);
 
-        self::assertSame($expiry->setTimezone(new DateTimeZone('UTC'))->format('D, d M Y H:i:s \G\M\T'), $response->getHeader('Expires'));
+        self::assertSame($expiryDateTime->setTimezone(new DateTimeZone('UTC'))->format('D, d M Y H:i:s \G\M\T'), $response->getHeader('Expires'));
         self::assertSame('public, max-age=86400', $response->getHeader('Cache-Control'));
     }
 
