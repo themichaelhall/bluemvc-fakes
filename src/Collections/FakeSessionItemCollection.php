@@ -106,7 +106,7 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
     }
 
     /**
-     * Rewinds the session item collection to to first element.
+     * Rewinds the session item collection to first element.
      *
      * @since 1.0.0
      */

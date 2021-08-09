@@ -375,7 +375,7 @@ class FakeRequestTest extends TestCase
     }
 
     /**
-     * Test that the method parameter is case insensitive.
+     * Test that the method parameter is case-insensitive.
      */
     public function testMethodParameterIsCaseInsensitive()
     {
