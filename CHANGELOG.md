@@ -1,4 +1,5 @@
 ## Unreleased
+- Changed required PHP version to >= 8.0.
 
 ## [2.2.0] - 2021-09-01
 - Changed required PHP version to >= 7.3.
