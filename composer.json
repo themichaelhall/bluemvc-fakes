@@ -19,8 +19,8 @@
   ],
   "require": {
     "php": ">=8.0",
-    "datatypes/datatypes": "^2.4",
-    "bluemvc/bluemvc-core": "^2.2"
+    "datatypes/datatypes": "^3.0",
+    "bluemvc/bluemvc-core": "^3.0@dev"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.0"

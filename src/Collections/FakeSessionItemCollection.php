@@ -60,9 +60,9 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      *
      * @param string $name The session item name.
      *
-     * @return mixed|null The session item value by session item name if it exists, null otherwise.
+     * @return mixed The session item value by session item name if it exists, null otherwise.
      */
-    public function get(string $name)
+    public function get(string $name): mixed
     {
         if (!isset($this->items[$name])) {
             return null;
