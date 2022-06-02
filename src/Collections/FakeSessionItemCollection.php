@@ -48,7 +48,7 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      *
      * @return mixed The current session item value.
      */
-    public function current()
+    public function current(): mixed
     {
         return current($this->items);
     }
@@ -123,7 +123,7 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
      * @param string $name  The session item name.
      * @param mixed  $value The session item value.
      */
-    public function set(string $name, $value): void
+    public function set(string $name, mixed $value): void
     {
         $this->items[$name] = $value;
     }
@@ -141,7 +141,7 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
     }
 
     /**
-     * @var array My items.
+     * @var array The items.
      */
-    private $items;
+    private array $items;
 }
