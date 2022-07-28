@@ -124,6 +124,8 @@ class FakeApplicationTest extends TestCase
 
     /**
      * Test getViewPath method.
+     *
+     * @noinspection PhpDeprecationInspection
      */
     public function testGetViewPath()
     {
@@ -131,6 +133,18 @@ class FakeApplicationTest extends TestCase
         $fakeApplication = new FakeApplication($DS . 'var' . $DS . 'www' . $DS);
 
         self::assertSame($DS . 'var' . $DS . 'www' . $DS, $fakeApplication->getViewPath()->__toString());
+    }
+
+    /**
+     * Test getViewPaths method.
+     */
+    public function testGetViewPaths()
+    {
+        $DS = DIRECTORY_SEPARATOR;
+        $fakeApplication = new FakeApplication($DS . 'var' . $DS . 'www' . $DS);
+
+        self::assertCount(1, $fakeApplication->getViewPaths());
+        self::assertSame($DS . 'var' . $DS . 'www' . $DS, $fakeApplication->getViewPaths()[0]->__toString());
     }
 
     /**
@@ -142,7 +156,27 @@ class FakeApplicationTest extends TestCase
         $fakeApplication = new FakeApplication($DS . 'var' . $DS . 'www' . $DS);
         $fakeApplication->setViewPath(FilePath::parseAsDirectory('views'));
 
-        self::assertSame($DS . 'var' . $DS . 'www' . $DS . 'views' . $DS, $fakeApplication->getViewPath()->__toString());
+        self::assertCount(1, $fakeApplication->getViewPaths());
+        self::assertSame($DS . 'var' . $DS . 'www' . $DS . 'views' . $DS, $fakeApplication->getViewPaths()[0]->__toString());
+    }
+
+    /**
+     * Test setViewPaths method.
+     */
+    public function testSetViewPaths()
+    {
+        $DS = DIRECTORY_SEPARATOR;
+        $fakeApplication = new FakeApplication($DS . 'var' . $DS . 'www' . $DS);
+        $fakeApplication->setViewPaths(
+            [
+                FilePath::parseAsDirectory('views'),
+                FilePath::parseAsDirectory('views2'),
+            ]
+        );
+
+        self::assertCount(2, $fakeApplication->getViewPaths());
+        self::assertSame($DS . 'var' . $DS . 'www' . $DS . 'views' . $DS, $fakeApplication->getViewPaths()[0]->__toString());
+        self::assertSame($DS . 'var' . $DS . 'www' . $DS . 'views2' . $DS, $fakeApplication->getViewPaths()[1]->__toString());
     }
 
     /**

@@ -36,7 +36,7 @@ class TestViewRenderer extends AbstractViewRenderer
      */
     public function renderView(ApplicationInterface $application, RequestInterface $request, FilePathInterface $viewFile, $model = null, ?ViewItemCollectionInterface $viewItems = null): string
     {
-        $fileContent = file_get_contents($application->getViewPath()->withFilePath($viewFile)->__toString());
+        $fileContent = file_get_contents($application->getViewPaths()[0]->withFilePath($viewFile)->__toString());
         $result = str_replace(
             [
                 '{MODEL}',

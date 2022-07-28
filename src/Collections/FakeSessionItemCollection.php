@@ -141,7 +141,7 @@ class FakeSessionItemCollection implements SessionItemCollectionInterface
     }
 
     /**
-     * @var array The items.
+     * @var array<string, mixed> The items.
      */
     private array $items;
 }
